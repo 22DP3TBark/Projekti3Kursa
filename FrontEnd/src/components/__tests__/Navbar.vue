@@ -12,9 +12,9 @@ import { RouterLink } from 'vue-router';
             </div>
 
             <ul v-show="!mobile" class="Navigation">
-                <li><RouterLink class="link" :to="{name: ''}">Home</RouterLink></li>
-                <li><RouterLink class="link" to="">about</RouterLink></li>
-                <li><RouterLink class="link" to="">Contact</RouterLink></li>
+                <!--<li><RouterLink class="link" :to="{name: ''}">Home</RouterLink></li>-->
+                <!--<li><RouterLink class="link" to="">about</RouterLink></li>-->
+                <!--<li><RouterLink class="link" to="">Contact</RouterLink></li>-->
                 <li><RouterLink class="link" to="">Login</RouterLink></li>
                 <li><RouterLink class="link" to="">Register</RouterLink></li>
             </ul>
@@ -27,5 +27,5 @@ import { RouterLink } from 'vue-router';
 </template>
 
 <style scoped>
-@import '@/assets/navbar.css';
+@import '@/assets/Navbar.css';
 </style>
