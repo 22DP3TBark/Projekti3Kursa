@@ -15,12 +15,12 @@ import { RouterLink } from 'vue-router';
                 <!--<li><RouterLink class="link" :to="{name: ''}">Home</RouterLink></li>-->
                 <!--<li><RouterLink class="link" to="">about</RouterLink></li>-->
                 <!--<li><RouterLink class="link" to="">Contact</RouterLink></li>-->
-                <li><RouterLink class="link" to="">Login</RouterLink></li>
-                <li><RouterLink class="link" to="">Register</RouterLink></li>
+                <li><RouterLink class="link" to="/login">Login</RouterLink></li>
+                <li><RouterLink class="link" to="/register">Register</RouterLink></li>
             </ul>
 
             <div class="icon">
-                    <i class="" ></i>
+                    <i class=""></i>
                 </div>
         </nav>
     </header>
