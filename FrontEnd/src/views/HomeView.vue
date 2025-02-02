@@ -13,7 +13,6 @@
         <div class="hero-content">
           <h1>Atrodi savu sapņu māju</h1>
           <p>
-            
             Atrodi perfekto īpašumu no  mūsu eksluzīvās kolekcijas un labākajām vietām
           </p>
           <div class="search-box">
