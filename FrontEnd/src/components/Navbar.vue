@@ -14,7 +14,7 @@
       
       <div class="topnav-right">
       <router-link to="/login" class="nav-link">Login</router-link>
-      <router-link to="/register" class="nav-link">Register</router-link>
+      <router-link to="/Register" class="nav-link">Register</router-link>
       </div>  
      
       
