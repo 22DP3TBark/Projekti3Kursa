@@ -25,7 +25,15 @@ const router = createRouter({
       component: register,
     },
     
+
+    
   ],
+
+  
+
 })
+
+
+
 
 export default router;
