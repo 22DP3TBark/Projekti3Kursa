@@ -5,7 +5,6 @@
 
 <template>
   <nav class="navbar">
-    
     <div class="navbar-menu" >
       <p>SkyLine</p>
       <router-link to="/home" class="nav-link">Home</router-link>

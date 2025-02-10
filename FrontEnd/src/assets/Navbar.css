@@ -1,7 +1,7 @@
 .navbar {
     padding: 1.5rem 2rem;
-    background: #222831;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.3s);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
     position: fixed;
     top: 0;
     left: 0;
@@ -15,12 +15,7 @@
     align-items: center;
   }
   
-  .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-    text-decoration: none;
-  }
+
   
   .navbar-menu {
     display: flex;
@@ -37,13 +32,19 @@
   .nav-link {
     color: #ffffff;
     text-decoration: none;
-    transition: color 0.3s;
+    font-size: 18px;
+    padding: 8px 25px;
+    border-radius: 50px;
+    transition: ease-in 0.4s;
   }
   
   .nav-link:hover {
-    color: #333;
+    background: rgba(255, 255, 255, 0.4);
   }
   
+  .nav-link.active {
+    background: rgba(255, 255, 255, 0.4);
+  }
   .menu-toggle {
     display: none;
     flex-direction: column;
