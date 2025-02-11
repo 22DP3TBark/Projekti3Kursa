@@ -9,7 +9,7 @@
     <div class="navbar-menu" >
       <p>SkyLine</p>
       <router-link to="/home" class="nav-link">Home</router-link>
-      <router-link to="/listings" class="nav-link">Listings</router-link>
+      <router-link to="/list" class="nav-link">Listings</router-link>
       <router-link to="/search" class="nav-link">Search</router-link>
       
       <div class="topnav-right">

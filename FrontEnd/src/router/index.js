@@ -3,6 +3,7 @@ import login from '@/views/LoginView.vue'
 import HomeView from '@/views/HomeView.vue'
 import register from '@/views/RegisterView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import Listing from '@/views/ListingsView.vue'
 
 
 
@@ -24,13 +25,12 @@ const router = createRouter({
       name: 'register',
       component: register,
     },
-    
-
-    
+    {
+      path: '/list',
+      name: 'listings',
+      component: Listing,
+    }
   ],
-
-  
-
 })
 
 
