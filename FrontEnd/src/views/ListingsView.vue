@@ -1,29 +1,33 @@
 <script setup>
+import PropertyCard from '../components/PropertyCard.vue';
+
+const properties = [
+   {
+      id: 1,
+    title: 'Modern Downtown Apartment',
+    price: 599000,
+    bedrooms: 2,
+    bathrooms: 2,
+    sqft: 1200,
+    address: '123 Main St, Downtown, City',
+    image: 'https://static.vecteezy.com/system/resources/thumbnails/023/307/449/small_2x/ai-generative-exterior-of-modern-luxury-house-with-garden-and-beautiful-sky-photo.jpg'
+  }
+];
 
 </script>
 
 <template>
- <div class="listings">
-    <div class="listings__header">
-     <h1>Our Listings</h1>
-    </div>
-    <div class="listings__content">
-     <div class="listings__content__item">
-        <div class="listings__content__item__image">
-         <img src="https://static.vecteezy.com/system/resources/thumbnails/023/307/449/small_2x/ai-generative-exterior-of-modern-luxury-house-with-garden-and-beautiful-sky-photo.jpg" alt="Listing image">
-        </div>
-        <div class="listings__content__item__info">
-         <h2>Listing Title</h2>
-         <p>Listing Description</p>
-         <p>Listing Price</p>
-        </div>
-     </div>
-    </div>
-    <div class="listings__footer">
-     <button>Load More</button>
-    </div>
+   <div class="container">
+    <header>
+      <h1>Featured Properties</h1>
+      <p>Find your dream home from our selected properties</p>
+    </header>
     
- </div>
+    <div class="properties-grid">
+      <PropertyCard 
+      />
+    </div>
+  </div>
 
 </template>
 

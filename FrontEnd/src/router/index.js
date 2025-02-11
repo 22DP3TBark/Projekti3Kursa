@@ -4,6 +4,7 @@ import HomeView from '@/views/HomeView.vue'
 import register from '@/views/RegisterView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import Listing from '@/views/ListingsView.vue'
+import PropItem from '@/components/PropertyCard.vue'
 
 
 
@@ -29,6 +30,11 @@ const router = createRouter({
       path: '/list',
       name: 'listings',
       component: Listing,
+    },
+    {
+      path: '/Props',
+      name: 'props',
+      component: PropItem,
     }
   ],
 })

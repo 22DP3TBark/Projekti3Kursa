@@ -10,7 +10,7 @@
       <p>SkyLine</p>
       <router-link to="/home" class="nav-link">Home</router-link>
       <router-link to="/list" class="nav-link">Listings</router-link>
-      <router-link to="/search" class="nav-link">Search</router-link>
+      <router-link to="/Props" class="nav-link">Search</router-link>
       
       <div class="topnav-right">
       <router-link to="/login" class="nav-link">Login</router-link>
