@@ -5,6 +5,7 @@ import register from '@/views/RegisterView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import Listing from '@/views/ListingsView.vue'
 import PropItem from '@/components/PropertyCard.vue'
+import UDBView from '@/views/UserDashBoardView.vue'
 
 
 
@@ -35,6 +36,11 @@ const router = createRouter({
       path: '/Props',
       name: 'props',
       component: PropItem,
+    },
+    {
+      path: '/userdash',
+      name: 'userdash',
+      component: UDBView,
     }
   ],
 })

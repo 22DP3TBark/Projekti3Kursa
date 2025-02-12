@@ -1,0 +1,22 @@
+.userDash{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+
+}
+.userinfo-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    width: 100vw;
+    min-height: 100vh;
+    margin-top: 80px;
+}
+
+p{
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 10px;
+    
+}

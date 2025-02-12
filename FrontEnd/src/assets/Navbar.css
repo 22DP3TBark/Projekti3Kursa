@@ -45,6 +45,29 @@
   .nav-link.active {
     background: rgba(255, 255, 255, 0.4);
   }
+
+  .userLog{
+    gap: 1.5rem;
+    display: flex;
+  }
+
+  .UserName {
+    color: rgb(24, 19, 19);
+    text-decoration: none;
+    font-size: 18px;
+    padding: 8px 25px;
+    border-radius: 50px;
+    background: silver;
+  }
+
+  .Logout-btn{
+    color: rgb(24, 19, 19);
+    text-decoration: none;
+    font-size: 18px;
+    padding: 8px 25px;
+    border-radius: 50px;
+    background: silver;
+  }
   .menu-toggle {
     display: none;
     flex-direction: column;

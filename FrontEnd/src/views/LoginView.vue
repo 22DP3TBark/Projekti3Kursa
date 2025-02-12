@@ -2,7 +2,9 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/Auth";
 
+const authStore = useAuthStore();
 const email = ref("");
 const password = ref("");
 const errorMessage = ref("");
@@ -16,7 +18,12 @@ const loginUser = async () => {
     });
 
     localStorage.setItem("token", response.data.token);
-    router.push("/home "); // Redirect to user page after login
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+
+    //Updates pinia imidiatly
+    authStore.setUser(response.data.user);
+
+    router.push("home"); // Redirect to user page after login
   } catch (error) {
     errorMessage.value = "Invalid email or password.";
   }
@@ -27,7 +34,7 @@ const loginUser = async () => {
 
 <template>
   <div class="auth-container">
-    <img src="https://i.pinimg.com/originals/01/89/76/018976b84db8a52197ae1d90fb40f0f6.jpg" alt="" class="LoginIMG" >
+    <img src="" alt="" class="LoginIMG" >
     <form @submit.prevent="loginUser" class="auth-form">
       <h2>Login</h2>
         <div class="form-group">

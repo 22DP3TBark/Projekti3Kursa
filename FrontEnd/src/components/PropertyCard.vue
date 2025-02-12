@@ -1,11 +1,6 @@
 <script setup>
 // for now info for listings
-defineProps({
-    property: {
-        type: Object,
-        required: true
-    }
-})
+
 
 </script>
 
@@ -14,7 +9,7 @@ defineProps({
         <img src="https://static.vecteezy.com/system/resources/thumbnails/023/307/449/small_2x/ai-generative-exterior-of-modern-luxury-house-with-garden-and-beautiful-sky-photo.jpg" alt="Property Image" class="property-image">
         <div class="property-info">
             <h2>Property</h2>
-            <p class="price"></p>
+            <p class="price">80mil</p>
 
             <div class="details">
                 <span> beds</span>
