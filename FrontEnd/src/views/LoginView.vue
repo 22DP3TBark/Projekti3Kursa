@@ -16,7 +16,7 @@ const loginUser = async () => {
     });
 
     localStorage.setItem("token", response.data.token);
-    router.push("/home"); // Redirect to user page after login
+    router.push("/home "); // Redirect to user page after login
   } catch (error) {
     errorMessage.value = "Invalid email or password.";
   }
@@ -27,6 +27,7 @@ const loginUser = async () => {
 
 <template>
   <div class="auth-container">
+    <img src="https://i.pinimg.com/originals/01/89/76/018976b84db8a52197ae1d90fb40f0f6.jpg" alt="" class="LoginIMG" >
     <form @submit.prevent="loginUser" class="auth-form">
       <h2>Login</h2>
         <div class="form-group">
