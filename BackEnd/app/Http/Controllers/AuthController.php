@@ -17,7 +17,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'required|string|max:255',
         ] );
@@ -37,7 +37,19 @@ class AuthController extends Controller
             'phone' => $request->phone,
         ]);
 
-        return response() ->json(['message' => 'User created successfully', 'user' => $user], 201);
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        //$response = ([
+         //   'user' => $user,
+         //   'token' => $token,
+       // ]);
+
+       $response = ([
+        'user' => $user,
+        'token' => $token,
+       ]);
+        
+        return response($response, 201);
     }
 
     public function login(Request $request){
@@ -53,9 +65,13 @@ class AuthController extends Controller
         if(!$user || !Hash::check($request->password, $user->password)){
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
+        // $user = Auth::user();
 
         //generate token
         $token = $user->createToken('auth_token')->plainTextToken;
+
+        //$cookie = cookie('jwt', $token, 60*24); // 1 day
+        // then add to the response a withCookie($cookie)
 
         return response()->json([
             'message' => 'Login  successful',

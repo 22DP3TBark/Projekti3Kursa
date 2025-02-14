@@ -23,9 +23,10 @@ const loginUser = async () => {
     //Updates pinia imidiatly
     authStore.setUser(response.data.user);
 
+    console.log(response.data);
     router.push("home"); // Redirect to user page after login
   } catch (error) {
-    errorMessage.value = "Invalid email or password.";
+    
   }
 };
 

@@ -3,6 +3,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
+    background-color: black;
   }
   
   * {
@@ -10,9 +11,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background: linear-gradient(135deg, #080751 0%, #2a5298 100%);
   }
   
   body {
-    background: #f5f5f5;
+    background: #ce2222;
   }
-  
+    
