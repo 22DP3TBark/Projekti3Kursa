@@ -1,5 +1,6 @@
 import router from "@/router";
 import { ref } from "vue";
+import axiosClient from "../../axiosClient";
 
 const isAuthenticated = ref(!!localStorage.getItem("ACCESS_TOKEN"));
 
@@ -23,12 +24,21 @@ const login = (token, userData) => {
   user.value = userData;
 };
 
-const logout = () => {
+const logout = async () => {
+
+  try {
+    await axiosClient.post("/logout");
+  } catch (error) {
+    console.error("Error logging out:", error);
+  }
+
   localStorage.removeItem("ACCESS_TOKEN");
   localStorage.removeItem("user");
   router.push("/login");
   isAuthenticated.value = false;
   user.value = null;
+
+  router.push("/login");
 };
 
 const checkAuth = () => {

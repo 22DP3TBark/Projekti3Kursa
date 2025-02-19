@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import axiosClient from "../../axiosClient";
+import router from "@/router";
 
 const name = ref("");
 const lastname = ref("");
@@ -30,6 +31,8 @@ const register = async () => {
         localStorage.setItem("ACCESS_TOKEN", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         message.value = "Registration successful!";
+
+        router.push("/login");
       } else {
         message.value = "Unexpected response formating";
       }

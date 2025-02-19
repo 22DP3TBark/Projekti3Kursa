@@ -19,7 +19,7 @@ onMounted(() => {
       <router-link to="/home" class="nav-link">Home</router-link>
       <router-link to="/list" class="nav-link">Listings</router-link>
       <router-link to="/Props" class="nav-link">Search</router-link>
-      <a href="">Sludinajums</a>
+      <a v-if="isAuthenticated" href="">Sludinajums</a>
       <router-link to="/profile" class="nav-link" v-if="isAuthenticated">User</router-link>
 
       <div class="topnav-right">
