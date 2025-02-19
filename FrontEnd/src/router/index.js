@@ -5,7 +5,8 @@ import register from '@/views/RegisterView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import Listing from '@/views/ListingsView.vue'
 import PropItem from '@/components/PropertyCard.vue'
-import UDBView from '@/views/UserDashBoardView.vue'
+import Profile from '@/pages/Profile.vue'
+
 
 
 
@@ -38,9 +39,9 @@ const router = createRouter({
       component: PropItem,
     },
     {
-      path: '/userdash',
-      name: 'userdash',
-      component: UDBView,
+      path: '/profile',
+      name: 'profile',
+      component: Profile,
     }
   ],
 })

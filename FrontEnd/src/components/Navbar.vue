@@ -1,41 +1,40 @@
 <script setup>
-import {useAuthStore} from '@/stores/Auth';
-import { computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useAuth } from "../stores/useAuth";
 
-const authStore = useAuthStore();
+const router = useRouter();
+const { isAuthenticated, user, logout, checkAuth } = useAuth();
 
-// load user on page refresh passing@192
+// Check auth on mount
 onMounted(() => {
-  authStore.loaduser();
+  checkAuth();
 });
-
-const user = computed(() => authStore.user);
-
-
 </script>
 
 <template>
   <nav class="navbar">
-    <div class="navbar-menu" >
+    <div class="navbar-menu">
       <p>SkyLine</p>
       <router-link to="/home" class="nav-link">Home</router-link>
       <router-link to="/list" class="nav-link">Listings</router-link>
       <router-link to="/Props" class="nav-link">Search</router-link>
-      <a v-if="user" href="">Sludinajums</a>
-      <router-link v-if="user" to="/userdash" class="nav-link">User</router-link>
-      
-      <div class="topnav-right">
-      <router-link v-if="!user" to="/login" class="nav-link">Login</router-link>
-      <router-link v-if="!user" to="/Register" class="nav-link">Register</router-link>
-      </div>  
+      <a href="">Sludinajums</a>
+      <router-link to="/profile" class="nav-link" v-if="isAuthenticated">User</router-link>
 
-      <div v-if="user" class="userLog">
-        
-        <span class="UserName">Welcom,{{ user.name }}</span>
-        <button class="Logout-btn" @click="authStore.logout">Logout</button>
+      <div class="topnav-right">
+        <!-- Show Login/Register if NOT logged in -->
+        <template v-if="!isAuthenticated">
+          <router-link to="/login" class="nav-link">Login</router-link>
+          <router-link to="/register" class="nav-link">Register</router-link>
+        </template>
+
+        <!-- Show User name & Logout if logged in -->
+        <template v-else>
+          <span class="UserName">Welcome, {{ user?.name }}</span>
+          <button @click="logout" class="Logout-btn">Logout</button>
+        </template>
       </div>
-     
-      
     </div>
   </nav>
 </template>

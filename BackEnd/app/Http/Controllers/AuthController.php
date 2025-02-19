@@ -44,12 +44,10 @@ class AuthController extends Controller
          //   'token' => $token,
        // ]);
 
-       $response = ([
-        'user' => $user,
-        'token' => $token,
-       ]);
-        
-        return response($response, 201);
+       return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ], 201);
     }
 
     public function login(Request $request){
@@ -65,8 +63,7 @@ class AuthController extends Controller
         if(!$user || !Hash::check($request->password, $user->password)){
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
-        // $user = Auth::user();
-
+        
         //generate token
         $token = $user->createToken('auth_token')->plainTextToken;
 

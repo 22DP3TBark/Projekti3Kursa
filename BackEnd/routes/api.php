@@ -6,10 +6,13 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Container\Attributes\Auth;
 use App\Http\Controllers\UserController;
 
-Route::post('/register', [AuthController::class, 'register']);
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
+Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'getUserInfo']);
+
 
 
