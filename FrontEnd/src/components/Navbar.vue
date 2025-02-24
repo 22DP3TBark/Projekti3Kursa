@@ -5,7 +5,7 @@ import { useAuth } from "../stores/useAuth";
 
 const router = useRouter();
 const { isAuthenticated, user, logout, checkAuth } = useAuth();
-
+  
 // Check auth on mount
 onMounted(() => {
   checkAuth();
@@ -25,8 +25,8 @@ onMounted(() => {
       <div class="topnav-right">
         <!-- Show Login/Register if NOT logged in -->
         <template v-if="!isAuthenticated">
-          <router-link to="/login" class="nav-link">Login</router-link>
-          <router-link to="/register" class="nav-link">Register</router-link>
+          <RouterLink to="/login"  class="nav-link">Login</RouterLink>
+          <RouterLink to="/register" class="nav-link">Register</RouterLink>
         </template>
 
         <!-- Show User name & Logout if logged in -->

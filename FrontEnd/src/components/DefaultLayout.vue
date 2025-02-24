@@ -1,12 +1,11 @@
 <script setup>
+
 </script>
 
 <template>
-  <div>
     <router-view/>
-  </div>
 </template>
 
-<style scoped>
-@import '@/assets/App.css';
+<style>
+
 </style>

@@ -2,7 +2,7 @@
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
+    color: #dd8717;
     background-color: black;
   }
   
@@ -11,7 +11,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background: linear-gradient(135deg, #080751 0%, #2a5298 100%);
+      
   }
   
   body {
