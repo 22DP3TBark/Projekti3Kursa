@@ -11,6 +11,8 @@ import Home from '@/pages/Home.vue';
 import  DefaultLayout from '@/components/DefaultLayout.vue';
 import Navbar from '@/components/Navbar.vue'
 import Listings from '@/pages/Listings.vue'
+import PropertySub from '@/pages/PropertySub.vue'
+import AdminPage from '@/components/AdminPage.vue'
 
 const routes = [
   {
@@ -59,8 +61,18 @@ const routes = [
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: NotFound,
-  }
+  },
   
+  {
+    path: '/sub',
+    name: 'PropertySub',
+    component: PropertySub
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: AdminPage,
+  }
 ];
 
 

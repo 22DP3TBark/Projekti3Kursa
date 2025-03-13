@@ -67,15 +67,17 @@ class AuthController extends Controller
         //generate token
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        //$cookie = cookie('jwt', $token, 60*24); // 1 day
-        // then add to the response a withCookie($cookie)
-
         return response()->json([
-            'message' => 'Login  successful',
-            'user' => $user,
             'token' => $token,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role, // Ensure this field is returned
+            ]
         ]);
     }
+
     public function logout(Request $request){
         auth()->user()->tokens()->delete();
 

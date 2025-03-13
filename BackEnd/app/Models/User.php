@@ -29,7 +29,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * The attributes that should be hidden for serialization. Name = Tricis, email= admin@gmail.com
      *
      * @var list<string>
      */
@@ -37,6 +37,10 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function  isAdmin(){
+        return $this->role === 'admin';
+    }
 
     /**
      * Get the attributes that should be cast.

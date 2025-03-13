@@ -8,6 +8,9 @@ const isAuthenticated = ref(!!localStorage.getItem("ACCESS_TOKEN"));
 const storedUser = localStorage.getItem("user");
 const user = ref(storedUser ? safeParse(storedUser) : null);
 
+// Add isAdmin ref to track admin status
+const isAdmin = ref(storedUser ? safeParse(storedUser)?.role || false : false);
+
 function safeParse(jsonString) {
   try {
     return JSON.parse(jsonString);
@@ -22,6 +25,7 @@ const login = (token, userData) => {
   localStorage.setItem("user", JSON.stringify(userData));
   isAuthenticated.value = true;
   user.value = userData;
+  isAdmin.value = userData.role === 'admin'; // Check if the role is 'admin'
 };
 
 const logout = async () => {
@@ -37,6 +41,7 @@ const logout = async () => {
   router.push("/login");
   isAuthenticated.value = false;
   user.value = null;
+  isAdmin.value = false;
 
   router.push("/login");
 };
@@ -45,6 +50,7 @@ const checkAuth = () => {
   isAuthenticated.value = !!localStorage.getItem("ACCESS_TOKEN");
   const storedUser = localStorage.getItem("user");
   user.value = storedUser ? safeParse(storedUser) : null;
+  isAdmin.value = storedUser ? safeParse(storedUser)?.role || false : false; // Check isAdmin on page load
 };
 
 export function useAuth() {
@@ -54,5 +60,6 @@ export function useAuth() {
     login,
     logout,
     checkAuth,
+    isAdmin,
   };
 }
