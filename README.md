@@ -23,5 +23,7 @@ Izdarīts:
     Kad uzspiež uz user pogu navbar, lietotājs var redzet visu savu infomaciju. Esošo lietotaja info saglabā kad viņs ielogojas ar login funkciju FrontEnd.
     
   Ir uztaisits listing page, bet pagaidam ir tikai ielikts parasts ierakts, vajag uztaisit dartubazes tabulu ar ipasumu info, un seedot vinu ar laravel faker.
-  
-  
+
+TESTCASES 10
+  Bilde kura var redzet tabulu ar 10 test cases
+![image](https://github.com/user-attachments/assets/0dcda2d6-304c-48e0-b775-e8ba0f256108)
