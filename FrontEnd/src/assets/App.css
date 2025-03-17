@@ -3,7 +3,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #dd8717;
-    background-color: rgb(23, 88, 230);
+    background-color: #f0f2f5; /* Ensure light grey background universally */
 }
 
 * {

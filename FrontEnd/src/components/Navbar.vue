@@ -9,7 +9,6 @@ const { isAuthenticated, user, logout, checkAuth, isAdmin } = useAuth();
 // Check auth on mount
 onMounted(() => {
   checkAuth();
-  isAdmin();
 });
 </script>
 
@@ -19,10 +18,10 @@ onMounted(() => {
       <p>SkyLine</p>
       <router-link to="/home" class="nav-link">Home</router-link>
       <router-link to="/list" class="nav-link">Listings</router-link>
-      <router-link to="/Props" class="nav-link">Search</router-link>
       <router-link to="/sub" class="nav-link" v-if="isAuthenticated">Property</router-link>
+      <router-link to="/propertylist" v-if="isAuthenticated">NK</router-link>
       <router-link to="/profile" class="nav-link" v-if="isAuthenticated">User</router-link>
-      <router-link to="/admin" >Admin Dashboard</router-link>
+      <router-link to="/admin" v-if="isAdmin" >Admin Dashboard</router-link>
 
       <div class="topnav-right">
         <!-- Show Login/Register if NOT logged in -->

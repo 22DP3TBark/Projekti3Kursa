@@ -2,12 +2,18 @@
 </script>
 
 <template>
-  <div>
+  <div id="app-container">
     <router-view/>
   </div>
 </template>
 
 <style scoped>
-@import '@/assets/App.css';
 
+
+#app-container {
+  background-color: white;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure full height layout */
+}
 </style>

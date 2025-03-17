@@ -1,14 +1,5 @@
 /* Make sure the entire page is black */
-html, body {
     
-    margin: 0;
-    padding: 0;
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 /* Wrapper container that covers the entire page */
 .container {
     width: 100%;
@@ -20,20 +11,31 @@ html, body {
 
 /* Center the form */
 .property-form-container {
-    max-width: 800px;
-    width: 90%;
-    padding: 2rem;
-    background: rgba(26, 22, 22, 0.8); /* Slight transparency */
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    max-width: 1000px; /* Increased width */
+    width: 95%; /* Adjusted for responsiveness */
+    padding: 2.5rem; /* Slightly increased padding */
+    background: rgba(44, 62, 80, 0.9); /* Slight transparency */
+    border: 1px solid #34495e;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
     color: white;
+    max-height: 90vh; /* Limit height to fit within the screen */
+    overflow-y: auto; /* Add scroll for overflowing content */
+}
+
+.property-form-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.7);
 }
 
 /* Form heading */
 .property-form-container h1 {
     text-align: center;
-    font-size: 2rem;
-    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.5rem;
+    color: #f39c12;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     margin-bottom: 1.5rem;
 }
 
@@ -84,18 +86,18 @@ label {
 input, select, textarea {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #666;
+    border: 1px solid #2c3e50;
     border-radius: 4px;
     font-size: 1rem;
-    background-color: #222;
-    color: white;
-    transition: border-color 0.3s;
+    background-color: #34495e;
+    color: #ecf0f1;
+    transition: all 0.3s ease;
 }
 
 input:focus, select:focus, textarea:focus {
     outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    border-color: #f39c12;
+    box-shadow: 0 0 8px rgba(243, 156, 18, 0.8);
 }
 
 /* Error styling */
@@ -114,7 +116,7 @@ input:focus, select:focus, textarea:focus {
 .amenities-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 .amenity-checkbox {
@@ -125,6 +127,16 @@ input:focus, select:focus, textarea:focus {
 .amenity-checkbox input {
     width: auto;
     margin-right: 0.5rem;
+}
+
+.amenity-checkbox label {
+    font-weight: bold;
+    color: #ecf0f1;
+    cursor: pointer;
+}
+
+.amenity-checkbox input:checked + label {
+    color: #f39c12;
 }
 
 /* Form buttons */
@@ -144,22 +156,27 @@ input:focus, select:focus, textarea:focus {
 }
 
 .submit-button {
-    background-color: #3498db;
+    background: linear-gradient(135deg, #f39c12, #e67e22);
     color: white;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.2s;
 }
 
 .submit-button:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, #e67e22, #d35400);
+    transform: translateY(-3px);
 }
 
 .reset-button {
-    background-color: #e0e0e0;
-    color: #333;
+    background: linear-gradient(135deg, #bdc3c7, #95a5a6);
+    color: #2c3e50;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.2s;
 }
 
 .reset-button:hover {
-    background-color: #d0d0d0;
+    background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+    transform: translateY(-3px);
 }
 
 /* Success message */
@@ -199,7 +216,9 @@ input:focus, select:focus, textarea:focus {
 /* Responsive styles */
 @media (max-width: 768px) {
     .property-form-container {
-        padding: 1rem;
+        max-width: 95%; /* Adjust for smaller screens */
+        max-height: 85vh; /* Adjust height for smaller screens */
+        padding: 1.5rem;
     }
     
     .form-row {
@@ -218,5 +237,6 @@ input:focus, select:focus, textarea:focus {
     
     .submit-button, .reset-button {
         width: 100%;
+        font-size: 1rem;
     }
 }

@@ -1,65 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
-const formData = ref({
-  title: '',
-  price: '',
-  bedrooms: 1,
-  bathrooms: 1,
-  squareFeet: '',
-  address: '',
-  city: '',
-  state: '',
-  zipCode: '',
-  description: '',
-  propertyType: 'house',
-  amenities: []
-});
-
-const amenitiesList = [
-  'Swimming Pool',
-  'Garden',
-  'Garage',
-  'Air Conditioning',
-  'Heating',
-  'Balcony',
-  'Fireplace',
-  'Security System'
-];
-
-const formSubmitted = ref(false);
-const formErrors = ref({});
-
-const validateForm = () => {
-  const errors = {};
-  
-  if (!formData.value.title.trim()) errors.title = 'Property title is required';
-  if (!formData.value.price.trim()) errors.price = 'Price is required';
-  else if (isNaN(formData.value.price) || Number(formData.value.price) <= 0) errors.price = 'Price must be a positive number';
-  
-  if (!formData.value.squareFeet.trim()) errors.squareFeet = 'Square feet is required';
-  else if (isNaN(formData.value.squareFeet) || Number(formData.value.squareFeet) <= 0) errors.squareFeet = 'Square feet must be a positive number';
-  
-  if (!formData.value.address.trim()) errors.address = 'Address is required';
-  if (!formData.value.city.trim()) errors.city = 'City is required';
-  if (!formData.value.state.trim()) errors.state = 'State is required';
-  if (!formData.value.zipCode.trim()) errors.zipCode = 'Zip code is required';
-  
-  formErrors.value = errors;
-  return Object.keys(errors).length === 0;
-};
-
-const submitForm = () => {
-  if (validateForm()) {
-    console.log('Form submitted:', formData.value);
-    formSubmitted.value = true;
-  } else {
-    console.log('Form has errors');
-  }
-};
-
-const resetForm = () => {
-  formData.value = {
+  const formData = ref({
     title: '',
     price: '',
     bedrooms: 1,
@@ -72,19 +14,25 @@ const resetForm = () => {
     description: '',
     propertyType: 'house',
     amenities: []
-  };
-  formSubmitted.value = false;
-  formErrors.value = {};
-};
+  });
 
-const toggleAmenity = (amenity) => {
-  const index = formData.value.amenities.indexOf(amenity);
-  if (index === -1) {
-    formData.value.amenities.push(amenity);
-  } else {
-    formData.value.amenities.splice(index, 1);
-  }
-};
+  const amenitiesList = [
+    'Swimming Pool',
+    'Garden',
+    'Garage',
+    'Air Conditioning',
+    'Heating',
+    'Balcony',
+    'Fireplace',
+    'Security System'
+  ];
+
+  const formSubmitted = ref(false);
+  const formErrors = ref({});
+
+ 
+ 
+
 </script>
 
 <template>
@@ -97,19 +45,19 @@ const toggleAmenity = (amenity) => {
       <p>Your property has been successfully submitted.</p>
       <div class="property-summary">
         <h3>Property Summary</h3>
-        <p><strong>Title:</strong> {{ formData.title }}</p>
-        <p><strong>Price:</strong> ${{ formData.price }}</p>
-        <p><strong>Type:</strong> {{ formData.propertyType }}</p>
-        <p><strong>Size:</strong> {{ formData.squareFeet }} sq ft</p>
-        <p><strong>Bedrooms:</strong> {{ formData.bedrooms }}</p>
-        <p><strong>Bathrooms:</strong> {{ formData.bathrooms }}</p>
-        <p><strong>Address:</strong> {{ formData.address }}, {{ formData.city }}, {{ formData.state }} {{ formData.zipCode }}</p>
-        <p v-if="formData.amenities.length > 0"><strong>Amenities:</strong> {{ formData.amenities.join(', ') }}</p>
+        <p><strong>Title:</strong></p>
+        <p><strong>Price:</strong> </p>
+        <p><strong>Type:</strong> </p>
+        <p><strong>Size:</strong> </p>
+        <p><strong>Bedrooms:</strong> </p>
+        <p><strong>Bathrooms:</strong> </p>
+        <p><strong>Address:</strong> </p>
+        <strong>Amenities:</strong> 
       </div>
-      <button @click="resetForm" class="submit-button">Submit Another Property</button>
+      <button  class="submit-button">Submit Another Property</button>
     </div>
     
-    <form v-else @submit.prevent="submitForm" class="property-form">
+    <form v-else  class="property-form">
       <div class="form-section">
         <h2>Basic Information</h2>
         
@@ -118,10 +66,9 @@ const toggleAmenity = (amenity) => {
           <input 
             type="text" 
             id="title" 
-            v-model="formData.title" 
-            :class="{ 'error-input': formErrors.title }"
+            
           >
-          <span v-if="formErrors.title" class="error-message">{{ formErrors.title }}</span>
+          <span class="error-message"></span>
         </div>
         
         <div class="form-row">
@@ -130,15 +77,13 @@ const toggleAmenity = (amenity) => {
             <input 
               type="text" 
               id="price" 
-              v-model="formData.price" 
-              :class="{ 'error-input': formErrors.price }"
             >
-            <span v-if="formErrors.price" class="error-message">{{ formErrors.price }}</span>
+            <span  class="error-message"></span>
           </div>
           
           <div class="form-group">
             <label for="propertyType">Property Type*</label>
-            <select id="propertyType" v-model="formData.propertyType">
+            <select id="propertyType" >
               <option value="house">House</option>
               <option value="apartment">Apartment</option>
               <option value="condo">Condo</option>
@@ -152,12 +97,12 @@ const toggleAmenity = (amenity) => {
         <div class="form-row">
           <div class="form-group">
             <label for="bedrooms">Bedrooms</label>
-            <input type="number" id="bedrooms" v-model="formData.bedrooms" min="0">
+            <input type="number" id="bedrooms"  min="0">
           </div>
           
           <div class="form-group">
             <label for="bathrooms">Bathrooms</label>
-            <input type="number" id="bathrooms" v-model="formData.bathrooms" min="0" step="0.5">
+            <input type="number" id="bathrooms"  min="0" step="0.5">
           </div>
           
           <div class="form-group">
@@ -165,10 +110,8 @@ const toggleAmenity = (amenity) => {
             <input 
               type="text" 
               id="squareFeet" 
-              v-model="formData.squareFeet" 
-              :class="{ 'error-input': formErrors.squareFeet }"
             >
-            <span v-if="formErrors.squareFeet" class="error-message">{{ formErrors.squareFeet }}</span>
+            <span  class="error-message"></span>
           </div>
         </div>
       </div>
@@ -178,36 +121,21 @@ const toggleAmenity = (amenity) => {
         
         <div class="form-group">
           <label for="address">Street Address*</label>
-          <input 
-            type="text" 
-            id="address" 
-            v-model="formData.address" 
-            :class="{ 'error-input': formErrors.address }"
-          >
-          <span v-if="formErrors.address" class="error-message">{{ formErrors.address }}</span>
+          <input type="text" id="address" >
+          <span  class="error-message"></span>
         </div>
         
         <div class="form-row">
           <div class="form-group">
             <label for="city">City*</label>
-            <input 
-              type="text" 
-              id="city" 
-              v-model="formData.city" 
-              :class="{ 'error-input': formErrors.city }"
-            >
-            <span v-if="formErrors.city" class="error-message">{{ formErrors.city }}</span>
+            <input type="text" id="city">
+            <span  class="error-message"></span>
           </div>
           
           <div class="form-group">
             <label for="state">State*</label>
-            <input 
-              type="text" 
-              id="state" 
-              v-model="formData.state" 
-              :class="{ 'error-input': formErrors.state }"
-            >
-            <span v-if="formErrors.state" class="error-message">{{ formErrors.state }}</span>
+            <input type="text" id="state"  >
+            <span  class="error-message"></span>
           </div>
           
           <div class="form-group">
@@ -239,19 +167,10 @@ const toggleAmenity = (amenity) => {
         <div class="form-group">
           <label>Amenities</label>
           <div class="amenities-container">
-            <div 
-              v-for="amenity in amenitiesList" 
-              :key="amenity" 
-              class="amenity-checkbox"
-            >
+            <div class="amenity-checkbox">
               <input 
-                type="checkbox" 
-                :id="amenity" 
-                :value="amenity" 
-                :checked="formData.amenities.includes(amenity)"
-                @change="toggleAmenity(amenity)"
-              >
-              <label :for="amenity">{{ amenity }}</label>
+                type="checkbox" >
+              <label ></label>
             </div>
           </div>
         </div>
@@ -259,7 +178,7 @@ const toggleAmenity = (amenity) => {
       
       <div class="form-actions">
         <button type="submit" class="submit-button">Submit Property</button>
-        <button type="button" @click="resetForm" class="reset-button">Reset Form</button>
+        <button type="button"  class="reset-button">Reset Form</button>
       </div>
     </form>
   </div>

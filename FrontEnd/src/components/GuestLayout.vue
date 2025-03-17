@@ -8,11 +8,11 @@ const route = useRoute()
 </script>
 
 <template>
-    <Navbar />
+        <Navbar />
         <router-view />
-
+    
 </template>
 
-<style>
-
+<style scoped>
+@import '../assets/Navbar.css';
 </style>
