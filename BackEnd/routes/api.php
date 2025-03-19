@@ -22,6 +22,9 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/properties', [PropertyController::class, 'store']);
     Route::get('/properties', [PropertyController::class, 'index']);
+    Route::get('/profile', [AuthController::class, 'profile']); // Fetch user profile
+    Route::put('/profile/update', [AuthController::class, 'updateProfile']); // Update profile info
+    Route::put('/profile/update-password', [AuthController::class, 'updatePassword']); // Change password
 });
 
 Route::post('/register', [AuthController::class, 'register']);

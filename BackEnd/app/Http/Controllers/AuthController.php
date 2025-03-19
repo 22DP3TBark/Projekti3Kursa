@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User; 
 
 class AuthController extends Controller
@@ -82,5 +83,42 @@ class AuthController extends Controller
         auth()->user()->tokens()->delete();
 
         return response()->json(['message' => 'Logged out']);
+    }
+
+    public function profile(Request $request){
+        return response()->json($request->user());
+    }
+
+    public function updateProfile(Request $request){
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'phone' => 'nullable|string|max:255'
+        ]);
+
+        $user->update($request->only(['name', 'lastname', 'username', 'phone']));
+
+        return response()->json(['message' => 'Profile updated successfully', 'user' => $user]);
+    }
+
+    // Change password
+    public function updatePassword(Request $request){
+        $user = Auth::user();
+
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:8|confirmed'
+        ]);
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json(['error' => 'Current password is incorrect'], 400);
+        }
+
+        $user->update(['password' => Hash::make($request->new_password)]);
+
+        return response()->json(['message' => 'Password updated successfully']);
     }
 }

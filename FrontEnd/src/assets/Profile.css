@@ -1,0 +1,83 @@
+.profile-container {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .tab-button {
+    padding: 10px 20px;
+    border: none;
+    background: #f0f0f0;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  .tab-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .profile-section {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .profile-section label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  .edit-btn {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    background-color: #0b236b;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .Else-CL label{
+    color: black;
+  }
+  .input-field {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .save-button {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    background-color: #0b236b;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  .SC-btn{
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    background-color: #0b236b;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+

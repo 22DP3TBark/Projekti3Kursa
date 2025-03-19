@@ -50,7 +50,7 @@ const checkAuth = () => {
   isAuthenticated.value = !!localStorage.getItem("ACCESS_TOKEN");
   const storedUser = localStorage.getItem("user");
   user.value = storedUser ? safeParse(storedUser) : null;
-  isAdmin.value = storedUser ? safeParse(storedUser)?.role || false : false; // Check isAdmin on page load
+  isAdmin.value = user.value?.role === 'admin'; // Ensure isAdmin is updated correctly
 };
 
 export function useAuth() {

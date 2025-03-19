@@ -14,6 +14,7 @@ import Listings from '@/pages/Listings.vue'
 import PropertySub from '@/pages/PropertySub.vue'
 import AdminPage from '@/components/AdminPage.vue'
 import PropertyList from '@/pages/PropertyList.vue'
+import UserPropertySub from '@/pages/UserPropSubmission.vue'
 
 const routes = [
   {
@@ -73,6 +74,11 @@ const routes = [
     path: '/admin',
     name: 'Admin',
     component: AdminPage,
+  },
+  {
+    path: '/userprop',
+    name: 'UserProp',
+    component: UserPropertySub,
   }
 ];
 
