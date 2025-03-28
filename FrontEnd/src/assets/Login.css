@@ -1,67 +1,93 @@
-.auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    width: 100vw;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-    padding: 2rem;
-    
-  }
-  
-  .auth-form {
-    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); 
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #000000;
-  }
-  
-  input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  button {
-    width: 100%;
-    padding: 0.75rem;
-    background: #050525;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 1rem;
-  }
-  
-  button:hover {
-    background: #002dc2;
-  }
-  
-  .error {
-    color: #dc3545;
-    margin-top: 0.5rem;
-  }
-  
-  .auth-link {
-    text-align: center;
-    margin-top: 1rem;
-  }
-  
-  .auth-link a {
-    color: #000000;
-    text-decoration: none;
-  }
+body{
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  width: 100%;
+}
+
+.main-container{
+  width: 100%;
+  height: 100vh;
+  background-color: #d6d6d6;
+  background-image: url('https://www.wilsonhomes.com.au/sites/default/files/styles/hero_image/public/My%20project%20-%202023-06-20T095818.329%20%281%29_0.jpg?itok=86RMvcZw');
+}
+
+.container{
+  background-color: white;
+  height: 85vh;
+  width: 85%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+h1{
+  font-weight: bold;
+  font-size: 30px;
+  color: #000000;
+  margin-top: 50px;
+  display: flex;
+  padding-bottom: 100px;
+}
+
+.form{
+ width: 100%;
+  height: 95%;
+  margin: 20px;
+  display: flex;
+}
+
+
+.image{
+  background-image: url('https://img.freepik.com/free-vector/house-building-cartoon-illustration_107791-4119.jpg?semt=ais_hybrid');
+  width: 100%;
+  height: 95%;
+  margin: 20px;
+}
+
+.form-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; 
+  margin: 0px 20px;
+  width: 100%;
+  height: 100%;
+  background-color: #d6d6d6;
+  border-radius: 20px;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.form-group label{
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+}
+
+.form-group input{
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.btn-login{
+  padding: 10px 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+
+}
+
+.auth-link{
+  padding-top: 20px;
+  text-decoration: none;
+}

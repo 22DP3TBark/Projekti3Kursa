@@ -1,7 +1,7 @@
 .hero {
     position: relative;
     height: 500px;
-    width: 100vw;
+    width: 100%;
     min-height: 100vh;
   }
   
@@ -128,56 +128,263 @@
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
   }
+/* main section css*/
 
-  /* HomeCards */
+/* property card css*/
 
-.properties {
-    margin: 0px;
-    padding:0px;
-    box-sizing: border-box;
-    font-family: sans-serif;
+.property-section {
+  text-align: center;
+  padding: 50px 20px;
+  background: #f9f9f9;
 }
 
-.card-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 100px;
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
 }
 
-.card{
-    width: 550px;
-    background-color: rgb(255, 255, 255);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-    margin: 20px;
+.property-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
 }
 
-.card img{
-    width: 100%;
-    height: 200px; /* Adjust height as needed */
-    object-fit: cover;
-}
-.card-content{
-    padding: 16px;
-}
-
-.card-content  h3{
-    font-size: 28px;
-    margin-bottom: 8px;
+.property-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 300px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
 }
 
-.card-content p{
-    
-    font-size: 15px;
-    line-height: 1.3;
+.property-card:hover {
+  transform: translateY(-5px);
 }
 
-.card-content .btn{
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: #333;
-    text-decoration: none;
-    margin-top: 16px;
+.property-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.property-info {
+  padding: 15px;
+}
+
+.property-info h3 {
+  margin: 10px 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #27ae60;
+}
+
+.location {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.view-details {
+  margin-top: 10px;
+  background: #320782;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.view-details:hover {
+  background: #270469;
+}
+
+
+.why-choose-section {
+  text-align: center;
+  padding: 50px 20px;
+  background: #fff;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.choose-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.choose-card {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  width: 280px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.choose-card:hover {
+  transform: translateY(-5px);
+}
+
+.choose-card i {
+  font-size: 2rem;
+  color: #320782;
+  margin-bottom: 10px;
+}
+
+.choose-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.choose-card p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+
+
+
+.how-it-works {
+  text-align: center;
+  padding: 50px 20px;
+  background: #f9f9f9;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.steps-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.step-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  width: 250px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.step-card:hover {
+  transform: translateY(-5px);
+}
+
+.step-card i {
+  font-size: 2rem;
+  color: #320782;
+  margin-bottom: 10px;
+}
+
+.step-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.step-card p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+
+.footer {
+  margin-top: 20px;
+  width: 100%;
+  padding: 20px;
+  background: #0d0718;
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.footer div {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer div h3 {
+  font-weight: 500;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+.footer div a {
+  display: block;
+  color: #cccccc;
+  text-decoration: none;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+.footer div a:hover {
+  color: #ffffff;
+}
+
+.footer form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer form input[type="text"] {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.footer form button {
+  padding: 10px;
+  background: #320782;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.footer form button:hover {
+  background: #270469;
+}
+
+.footer div p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #cccccc;
+}
+
+.col-3 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
 }

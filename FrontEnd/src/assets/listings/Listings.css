@@ -1,5 +1,3 @@
-
-
 .listings-container {
   font-family: Arial, sans-serif;
   width: 100%;
@@ -8,7 +6,7 @@
 
 }
 
-/* Header */
+/* Header 
 .header {
   background-color: #333;
   color: white;
@@ -16,25 +14,64 @@
   text-align: center;
   height: 10rem;
 }
-.header .ListInput{
-  width: 25%;
+*/
+
+.header{
+  background-color: #333;
+  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+}
+
+.header h1 {
+  color: white;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin: 0px;
+  padding: 0px;
+}
+.search{
+  padding-top: 20px;
+  display: flex;
+  gap: 10px; /* Add gap between children */
+}
+
+.search input{
+  gap: 50px;
+}
+
+.ListInput{
+  
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid #333;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  color: #f4f4f4;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  gap: 20px;
 }
-.header .ListButton{
-  width: 10%;
-  padding: 13px;
-  border-radius: 15px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  background-color: #0a0d44;
-  color: white;
 
+.ListButton{
+  padding: 10px 20px;
+  background-color: #0c0b41;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px; /* Optional: Additional spacing if needed */
 }
+.ListButton:hover{
+  background-color: #9795dd;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:  0.5s ease;
+}
+
+
 /* Main Content Layout */
 .main-content {
   display: flex;
@@ -70,14 +107,17 @@
 
 .input-group {
   display: flex;
-  gap: 10px;
+  gap: 10px; /* Ensure proper spacing between inputs */
+  flex-wrap: wrap; /* Allow inputs to wrap if necessary */
+
 }
 
 .input-group input {
-  flex: 1;
+ 
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  box-sizing: border-box; /* Include padding and border in width calculation */
 }
 
 .checkbox-group {

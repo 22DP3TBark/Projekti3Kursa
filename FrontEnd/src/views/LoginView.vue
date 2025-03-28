@@ -32,27 +32,38 @@ const login = async () => {
 </script>
 
 <template>
-  <div class="auth-container">
-    <img src="" alt="" class="LoginIMG" >
-    <form @submit.prevent="login" class="auth-form">
-      <h2>Login</h2>
-        <div class="form-group">
-          <label for="email" >Email</label>
-          <input type="email" id="email" v-model="email" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" v-model="password"required>
-        </div>
+  <main class="main-container">
+      <div class="container">
+        <div class="form">
+        
+          <form class="form-container" @submit.prevent="login">
+            <h1>Login</h1>
+            
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" v-model="email" required />
+            </div>
 
-      <button type="submit">Login</button>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" v-model="password" required />
+            </div>
 
-      <p class="auth-link">
+            <button type="submit" class="btn-login">Login</button>
+            
+            
+
+            <p class="auth-link">
         Don't have an account? 
         <router-link to="/register">Register</router-link>
       </p>
-    </form>
-  </div>
+          </form>
+          
+          <p v-if="errors" class="error">{{ errors }}</p>
+        </div>
+        <div class="image"><img src="" alt=""></div>        
+      </div>
+  </main>
 </template>
 
 <style scoped>

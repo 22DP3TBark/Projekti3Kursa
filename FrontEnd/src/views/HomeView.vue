@@ -36,39 +36,133 @@
         </div>
       </div>
 
-      <section class="properties">
-            <div class="card-container">
-                <div class="card">
-                    <img src="https://www.aprinkis.lv/media/k2/items/cache/0865a7eee7df429588f390904ce0a276_XL.jpg" alt="">
-                    <div class="card-content">
-                        <p>Lokacija</p>
-                        <h3>Īpašums 1</h3>
-                        <p>Smuka maja  ar so un  to un tiri piri nevar atrast so knabible</p>
-                        <a href="" class="btn">Read more</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="https://i.jauns.lv/t/2024/06/25/3088575/490x350.webp?v=1719299859" alt="">
-                    <div class="card-content">
-                        <p>Lokacija</p>
-                        <h3>Īpašums 2</h3>
-                        <p>Smuka maja  ar so un  to un tiri piri nevar atrast so knabible</p>
-                        <a href="" class="btn">Read more</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="https://img1.spoki.lv/upload/articles/40/409405/images/Majas-Latvija-1.jpg" alt="">
-                    <div class="card-content">
-                        <p>Lokacija</p>
-                        <h3>Īpašums 3</h3>
-                        <p>Smuka maja  ar so un  to un tiri piri nevar atrast so knabible</p>
-                        <p>4 beds 3 baths 1500m*2</p>
-                        <a href="" class="btn">Read more</a>
-                    </div>
-                </div>
+      <main>
+        <section class=" property-section">
+          <h2 class="section-title">Featured Property</h2>
+          <div class="property-container">
+            <!-- Property Card 1 -->
+            <div class="property-card">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd0P-8jGLtQjo5Xcy0YxABxzwUQ5Fwgs0ATQ&s" alt="Property Image">
+               <div class="property-info">
+                <h3>Luxury Villa</h3>
+                  <p class="price">$450,000</p>
+                  <p class="location">Los Angeles, CA</p>
+                <button class="view-details">View Details</button>
+              </div>
             </div>
-            
-      </section>
+
+            <div class="property-card">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd0P-8jGLtQjo5Xcy0YxABxzwUQ5Fwgs0ATQ&s" alt="Property Image">
+              <div class="property-info">
+                <h3>Modern Apartment</h3>
+                <p class="price">$250,000</p>
+                <p class="location">New York, NY</p>
+                <button class="view-details">View Details</button>
+              </div>
+            </div>
+
+             <!-- Property Card 3 -->
+            <div class="property-card">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd0P-8jGLtQjo5Xcy0YxABxzwUQ5Fwgs0ATQ&s" alt="Property Image">
+              <div class="property-info">
+                <h3>Cozy Family Home</h3>
+                <p class="price">$350,000</p>
+                <p class="location">Miami, FL</p>
+                <button class="view-details">View Details</button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+        <section class="why-choose-section">
+    <h2 class="section-title">Why Choose Us?</h2>
+    <div class="choose-container">
+      
+      <!-- Feature 1 -->
+      <div class="choose-card">
+        <i class="fas fa-check-circle"></i>
+        <h3>Verified Listings</h3>
+        <p>All properties are verified for authenticity, ensuring a safe experience.</p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="choose-card">
+        <i class="fas fa-dollar-sign"></i>
+        <h3>Affordable Prices</h3>
+        <p>We offer the best property deals tailored to your budget.</p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="choose-card">
+        <i class="fas fa-headset"></i>
+        <h3>24/7 Support</h3>
+        <p>Our team is always ready to assist you at any time.</p>
+      </div>
+
+    </div>
+  </section>  
+
+  <section class="how-it-works">
+    <h2 class="section-title">How It Works</h2>
+    <div class="steps-container">
+      
+      <!-- Step 1 -->
+      <div class="step-card">
+        <i class="fas fa-search"></i>
+        <h3>Search Properties</h3>
+        <p>Find your dream home by searching through our verified listings.</p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-card">
+        <i class="fas fa-phone-alt"></i>
+        <h3>Contact Seller</h3>
+        <p>Reach out to the property owner or agent directly for more details.</p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-card">
+        <i class="fas fa-calendar-check"></i>
+        <h3>Schedule a Visit</h3>
+        <p>Arrange a property viewing to check if it meets your expectations.</p>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step-card">
+        <i class="fas fa-handshake"></i>
+        <h3>Make a Deal</h3>
+        <p>Negotiate, finalize, and move into your new home with ease.</p>
+      </div>
+
+    </div>
+  </section>
+    <footer class="footer">
+      <div class="col-1">
+        <h3>Useful Links</h3>
+        <a href="#">Home</a>
+        <a href="#">About Us</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+        <a href="#">FAQ</a>
+      </div>
+      <div class="col-2">
+        <h3>Newsletter</h3>
+          <form action="">
+            <input type="text" placeholder="Enter your email">
+            <button type="submit">Subscribe</button>
+          </form>
+      </div>
+      <div class="col-3">
+          <h3>Contacts</h3>
+          <p>
+            Address: 123 Main Street<br />
+            Phone: +1 234 567 890<br />
+            Email: info@example.com
+          </p>
+      </div>
+      
+    </footer>
+      </main>
     
  
     

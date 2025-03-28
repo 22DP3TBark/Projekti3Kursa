@@ -1,15 +1,25 @@
 <script setup>
+// <nav>
+//                 <input type="text" class="ListInput"  placeholder="Price">
+//                 <input type="text" class="ListInput" placeholder="">
+//                 <button class="ListButton">Search</button><h1>Propery Listings</h1>
+            
+        //    <p>Find your dream home</p>
+           
+//             </nav>
+
 </script>
 
 <template>
     <div class="listings-container">
         <!-- Headers -->
         <header class="header">
-            <h1>Propery Listings</h1>
-            <p>Find your dream home</p>
+            <h1>Property Listings</h1>
+            <div class="search">
                 <input type="text" class="ListInput"  placeholder="Price">
                 <input type="text" class="ListInput" placeholder="">
                 <button class="ListButton">Search</button>
+            </div>
         </header>
 
         <!-- MainContent -->

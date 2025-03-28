@@ -10,34 +10,41 @@ const { isAuthenticated, user, logout, checkAuth, isAdmin } = useAuth();
 onMounted(() => {
   checkAuth(); // Ensure this updates isAdmin correctly
 });
+
+console.log(user.value)
 </script>
 
 <template>
-  <nav class="navbar">
-    <div class="navbar-menu">
-      <p>SkyLine</p>
-      <router-link to="/home" class="nav-link">Home</router-link>
-      <router-link to="/list" class="nav-link">Listings</router-link>
-      <router-link to="/userprop" class="nav-link" v-if="isAuthenticated">Property</router-link>
-      <router-link to="/propertylist" v-if="isAuthenticated">NK</router-link>
-      <router-link to="/admin" v-if="isAdmin">Admin Dashboard</router-link>
-      
+  <header>
+    <nav class="navbar">
+      <div class="navbar-container">
+          <div class="logo">
+            Kaspar
+          </div>
 
-      <div class="topnav-right">
-        <!-- Show Login/Register if NOT logged in -->
+          <!-- Navigation Links -->
+      <ul class="nav-links">
+        <li class="button-33"><router-link to="/home">Home</router-link></li>
+        <li class="button-33"><router-link  to="/list">Listings</router-link></li>
+        <li class="button-33" v-if="isAdmin"><router-link to="/admindash">Dashboard </router-link></li>
+        <li class="button-33" v-if="isAuthenticated"><router-link to="/userprop">Property {{ user?.lastname }}</router-link></li>
+        <li class="button-33"><router-link to="/propertylist">NK</router-link></li>
+        <li class="button-33" v-if="isAdmin"><router-link to="/admin">Admin Dashboard</router-link></li>
+      </ul>
+      </div>
+      <div class="user-profile">
+      <router-link to="/profile"><a href="" class="" v-if="isAuthenticated">{{ user?.name }} {{ user?.lastname }}</a></router-link>
+      </div>
+
+      <!-- Authentication Actions -->
+      <div class="auth-actions">
         <template v-if="!isAuthenticated">
-          <RouterLink to="/login"  class="nav-link">Login</RouterLink>
-          <RouterLink to="/register" class="nav-link">Register</RouterLink>
-        </template>
-
-        <!-- Show User name & Logout if logged in -->
-        <template v-else>
-          <router-link to="/profile"><span  class="UserName">Welcome, {{ user?.name }}</span></router-link>
-          <button @click="logout" class="Logout-btn">Logout</button>
+          <router-link to="/login" class="button-33">Login</router-link>
+          <router-link to="/register" class="button-33">Register</router-link>
         </template>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </header>
 </template>
 
 <style scoped>
