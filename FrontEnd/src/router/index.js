@@ -7,7 +7,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Profile from '@/pages/Profile.vue'
 
 import GuestLayout from '@/components/GuestLayout.vue';
-import Home from '@/pages/Home.vue';
+
 import  DefaultLayout from '@/components/DefaultLayout.vue';
 import Navbar from '@/components/Navbar.vue'
 import Listings from '@/pages/Listings.vue'

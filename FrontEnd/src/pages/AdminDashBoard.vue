@@ -1,13 +1,20 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import adminService from '@/services/adminService'; // Adjust the path to your adminService.js
+import { useAuth } from "../stores/useAuth";
+import PropertyTableAdmin from '@/components/PropertyTableAdmin.vue';
+
+const {user} = useAuth();
 
 // Reactive state
 const users = ref([]);
 const selectedUser = ref(null);
+const filteredUsers = ref([]);
 const loading = ref(false);
 const error = ref(null);
 const showUsersTable = ref(false); // Define showUsersTable
+const showPropertiesTable = ref(false); // Define showPropertiesTable
+const propertySearchQuery = ref(""); // Add a reactive property for the search query
 
 // Fetch all users when the component mounts
 const fetchUsers = async () => {
@@ -15,6 +22,7 @@ const fetchUsers = async () => {
   error.value = null;
   try {
     users.value = await adminService.getAllUsers();
+    filteredUsers.value = users.value; // Initialize filteredUsers with all users
   } catch (err) {
     error.value = 'Failed to load users. Please try again.';
   } finally {
@@ -73,10 +81,32 @@ const deleteUser = async (id) => {
 // Toggle the visibility of the users table
 const toggleUsersTable = () => {
   showUsersTable.value = !showUsersTable.value;
+  showPropertiesTable.value = false;
+};
+
+const togglePropertiesTable = () => {
+  showPropertiesTable.value = !showPropertiesTable.value;
+  showUsersTable.value = false; // Hide Users Table when Properties Table is shown
 };
 
 // Fetch users on component mount
 onMounted(fetchUsers);
+
+
+const emit = defineEmits(['search']);
+
+const search = (e) =>{
+  emit('search', e.target.value)
+};
+
+const handlesearch = (query) => {
+  const lowerCaseQuery = query.toLowerCase();
+  filteredUsers.value = users.value.filter(user => 
+    Object.values(user).some((value) =>
+      String(value).toLowerCase().includes(lowerCaseQuery)
+    )
+  );
+};
 </script>
 
 <template>
@@ -95,9 +125,9 @@ onMounted(fetchUsers);
                     <span>👥</span>
                     <span>Users</span>
                 </a>
-                <a href="#" class="nav-item">
+                <a href="#" class="nav-item" @click.prevent="togglePropertiesTable">
                     <span>📝</span>
-                    <span>Projects</span>
+                    <span>Properties</span>
                 </a>
                 <a href="#" class="nav-item">
                     <span>⚙️</span>
@@ -109,12 +139,17 @@ onMounted(fetchUsers);
             <header class="header">
                 <h1 class="header-title">Admin Dashboard</h1>
                 <div class="user-profile">
-                    <span>John doe</span>
+                    <span>{{ user.name }}</span>
                     <div class="user-avatar">JD</div>
                 </div>
             </header>
             <section>
+              
                 <div v-if="showUsersTable">
+                  <div class="search">
+                    <input type="text" @input="handlesearch($event.target.value)" placeholder="Search..." class="search-input" />
+                    <button class="search-btn" disabled>Search</button>
+                  </div>
                     <h2>Users Table</h2>
                     <!-- Users Table -->
                     <table v-if="!loading && !error" class="user-table">
@@ -131,7 +166,7 @@ onMounted(fetchUsers);
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="user in users" :key="user.id">
+                        <tr v-for="user in filteredUsers" :key="user.id">
                         <td>{{ user.id }}</td>
                         <td>{{ user.name }}</td>
                         <td>{{ user.lastname }}</td>
@@ -146,6 +181,8 @@ onMounted(fetchUsers);
                         </tr>
                     </tbody>
                 </table>
+
+            
                 <!-- Edit User Form -->
                     <div v-if="selectedUser" class="edit-form">
                     <h2>Edit User</h2>
@@ -178,6 +215,19 @@ onMounted(fetchUsers);
                         <button @click="selectedUser = null" class="btn btn-cancel">Cancel</button>
                     </form>
                     </div>
+                </div>
+                <!-- Properties-->
+                <div v-if="showPropertiesTable">
+                  <div class="search">
+                    <input
+                      type="text"
+                      v-model="propertySearchQuery"
+                      placeholder="Search properties..."
+                      class="search-input"
+                    />
+                    <button class="search-btn" disabled>Search</button>
+                  </div>
+                    <PropertyTableAdmin :searchQuery="propertySearchQuery" />  
                 </div>
                 <div v-else>
                     <p>Welcome to the Admin Dashboard. Select an option from the sidebar.</p>

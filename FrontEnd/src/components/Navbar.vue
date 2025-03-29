@@ -29,11 +29,11 @@ console.log(user.value)
         <li class="button-33" v-if="isAdmin"><router-link to="/admindash">Dashboard </router-link></li>
         <li class="button-33" v-if="isAuthenticated"><router-link to="/userprop">Property {{ user?.lastname }}</router-link></li>
         <li class="button-33"><router-link to="/propertylist">NK</router-link></li>
-        <li class="button-33" v-if="isAdmin"><router-link to="/admin">Admin Dashboard</router-link></li>
       </ul>
       </div>
       <div class="user-profile">
-      <router-link to="/profile"><a href="" class="" v-if="isAuthenticated">{{ user?.name }} {{ user?.lastname }}</a></router-link>
+      <router-link to="/profile"><a href="" class="" v-if="isAuthenticated">{{ user?.name }} {{ user.lastname }}</a></router-link>
+      <li class="button-33" @click="logout()">Logout</li>
       </div>
 
       <!-- Authentication Actions -->
