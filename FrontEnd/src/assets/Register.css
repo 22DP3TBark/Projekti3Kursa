@@ -135,8 +135,12 @@ p{
   padding-top: 20px;
 }
 
-
-
+.error {
+  color: #dc3545; /* Red color for error messages */
+  font-size: 14px; /* Slightly smaller font size */
+  margin-top: 5px; /* Add spacing above the error message */
+  font-weight: bold; /* Make the error message bold */
+}
 
 /*.auth-container{
     display: flex;

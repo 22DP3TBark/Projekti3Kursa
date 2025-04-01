@@ -33,7 +33,7 @@ console.log(user.value)
       </div>
       <div class="user-profile">
       <router-link to="/profile"><a href="" class="" v-if="isAuthenticated">{{ user?.name }} {{ user.lastname }}</a></router-link>
-      <li class="button-33" @click="logout()">Logout</li>
+      <li class="button-33" v-if="isAuthenticated" @click="logout()">Logout</li>
       </div>
 
       <!-- Authentication Actions -->

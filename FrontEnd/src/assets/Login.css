@@ -21,6 +21,7 @@ body{
   align-items: center;
   margin: 0 auto;
   margin-top: 50px;
+  border-radius: 10px;
 }
 
 h1{
@@ -78,6 +79,10 @@ h1{
   border-radius: 5px;
   font-size: 16px;
 }
+.form-group input:focus{
+  border-color: #007bff; /* Blue highlight when focused */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
 
 .btn-login{
   padding: 10px 30px;
@@ -85,9 +90,27 @@ h1{
   border-radius: 5px;
   font-size: 16px;
 
+  
+}
+.btn-login:hover{
+  border-color: #007bff; /* Blue highlight when focused */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 .auth-link{
   padding-top: 20px;
   text-decoration: none;
+  font-weight: bold;
+}
+.auth-link a{
+  text-decoration: none;
+  color: #000000;
+  font-size: 18px;
+  margin-top: 20px;
+}
+.error {
+  color: #dc3545; /* Red color for error messages */
+  font-size: 14px; /* Slightly smaller font size */
+  margin-top: 5px; /* Add spacing above the error message */
+  font-weight: bold; /* Make the error message bold */
 }

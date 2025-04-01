@@ -92,7 +92,7 @@ class PropertyController extends Controller
             'swimming_pool' => filter_var($request->swimming_pool, FILTER_VALIDATE_BOOLEAN),
             'garden' => filter_var($request->garden, FILTER_VALIDATE_BOOLEAN),
             'furnished' => filter_var($request->furnished, FILTER_VALIDATE_BOOLEAN),
-            'status' => $request->status,
+            'status' => $request->status,   
         ]);
 
         $properties = Property::all();

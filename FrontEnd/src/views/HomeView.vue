@@ -1,4 +1,20 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import axiosClient from '../../axiosClient';
+
+const properties = ref([]);
+
+const fetchProperties = async () => {
+  try {
+    const response = await axiosClient.get('/properties');
+    properties.value = response.data.properties; // Ensure this matches API response
+    console.log("Fetched properties:", properties.value); // Debugging
+  } catch (error) {
+    console.error("Error fetching properties:", error);
+  }
+};
+
+onMounted(fetchProperties);
 
 </script>
 
@@ -40,38 +56,19 @@
         <section class=" property-section">
           <h2 class="section-title">Featured Property</h2>
           <div class="property-container">
-            <!-- Property Card 1 -->
-            <div class="property-card">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd0P-8jGLtQjo5Xcy0YxABxzwUQ5Fwgs0ATQ&s" alt="Property Image">
-               <div class="property-info">
-                <h3>Luxury Villa</h3>
-                  <p class="price">$450,000</p>
-                  <p class="location">Los Angeles, CA</p>
-                <button class="view-details">View Details</button>
-              </div>
-            </div>
-
-            <div class="property-card">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd0P-8jGLtQjo5Xcy0YxABxzwUQ5Fwgs0ATQ&s" alt="Property Image">
+            <div 
+              class="property-card" 
+              v-for="(property, index) in properties.slice(0, 3)" 
+              :key="index"
+            >
+              <img :src="property.image" alt="Property Image" />
               <div class="property-info">
-                <h3>Modern Apartment</h3>
-                <p class="price">$250,000</p>
-                <p class="location">New York, NY</p>
+                <h3>{{ property.title }}</h3>
+                <p class="price">{{ property.price }}</p>
+                <p class="location">{{ property.location }}</p>
                 <button class="view-details">View Details</button>
               </div>
             </div>
-
-             <!-- Property Card 3 -->
-            <div class="property-card">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd0P-8jGLtQjo5Xcy0YxABxzwUQ5Fwgs0ATQ&s" alt="Property Image">
-              <div class="property-info">
-                <h3>Cozy Family Home</h3>
-                <p class="price">$350,000</p>
-                <p class="location">Miami, FL</p>
-                <button class="view-details">View Details</button>
-              </div>
-            </div>
-
           </div>
         </section>
         <section class="why-choose-section">

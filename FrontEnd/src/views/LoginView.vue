@@ -13,6 +13,11 @@ const {login: authLogin} = useAuth();
 const login = async () => {
   errors.value = null;
 
+  // Call validateForm and stop if invalid
+  if (!validateForm()) {
+    return;
+  }
+
   const payload = {
     email: email.value,
     password: password.value,
@@ -29,6 +34,32 @@ const login = async () => {
     }
   }
 };
+
+const errorss = ref({
+  email: "",
+  password: "",
+})
+
+const validateForm = () => {
+  let valid = true;
+
+  errorss.value = {
+    email: "",
+    password: "",
+  };
+
+  // Email verification
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email.value.trim()) {
+    errorss.value.email = "Email is required"; // Update errorss, not errors
+    valid = false;
+  } else if (!emailPattern.test(email.value)) {
+    errorss.value.email = "Invalid email format"; // Update errorss, not errors
+    valid = false;
+  }
+
+  return valid;
+};
 </script>
 
 <template>
@@ -42,6 +73,7 @@ const login = async () => {
             <div class="form-group">
               <label for="email">Email</label>
               <input type="email" id="email" v-model="email" required />
+              <p v-if="errorss.email" class="error">{{ errorss.email }}</p>
             </div>
 
             <div class="form-group">
