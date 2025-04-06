@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import axiosClient from "../../axiosClient";
 
@@ -31,6 +31,20 @@ const features = ref({
 const mainImage = ref(null);
 const galleryImages = ref([]);
 const message = ref("");
+
+function handleMainImage(event) {
+  if (event.target.files.length > 0) {
+    nextTick(() => {
+      mainImage.value = event.target.files[0];
+    });
+  }
+}
+
+function handleGalleryImages(event) {
+  nextTick(() => {
+    galleryImages.value = Array.from(event.target.files);
+  });
+}
 
 async function submitProperty() {
   const formData = new FormData();
@@ -70,11 +84,7 @@ async function submitProperty() {
     const response = await axiosClient.post("/properties", formData);
     message.value = "Property submitted successfully!";
   } catch (error) {
-    if (error.response && error.response.data) {
-      message.value = error.response.data.message;
-    } else {
-      message.value = "An error occurred";
-    }
+    message.value = error.response?.data?.message || "An error occurred";
   }
 }
 </script>
@@ -120,21 +130,17 @@ async function submitProperty() {
       <div class="form-section">
         <h3>Location Details</h3>
         <hr />
-
         <div class="form-group">
           <input type="text" placeholder="Address" v-model="address" />
         </div>
-
         <div class="form-row">
           <input type="text" placeholder="City" v-model="city" />
           <input type="text" placeholder="State" v-model="state" />
         </div>
-
         <div class="form-row">
           <input type="text" placeholder="Country" v-model="country" />
           <input type="text" placeholder="ZIP Code" v-model="zipCode" />
         </div>
-
         <div class="form-row">
           <input type="number" placeholder="Latitude" step="0.000001" v-model="latitude" />
           <input type="number" placeholder="Longitude" step="0.000001" v-model="longitude" />
@@ -144,7 +150,6 @@ async function submitProperty() {
       <div class="form-section">
         <h3>Additional Features</h3>
         <hr />
-
         <div class="checkbox-group">
           <label><input type="checkbox" v-model="features.balcony" /> Balcony</label>
           <label><input type="checkbox" v-model="features.garage" /> Garage</label>
@@ -157,15 +162,13 @@ async function submitProperty() {
       <div class="form-section">
         <h3>Images</h3>
         <hr />
-
         <div class="form-group">
           <label>Main Image</label>
-          <input type="file" accept="image/*" @change="e => mainImage.value = e.target.files[0]" />
+          <input type="file" accept="image/*" @change="handleMainImage" />
         </div>
-
         <div class="form-group">
           <label>Gallery Images</label>
-          <input type="file" multiple accept="image/*" @change="e => galleryImages.value = Array.from(e.target.files)" />
+          <input type="file" multiple accept="image/*" @change="handleGalleryImages" />
         </div>
       </div>
 

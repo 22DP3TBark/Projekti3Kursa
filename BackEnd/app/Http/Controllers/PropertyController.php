@@ -109,4 +109,17 @@ class PropertyController extends Controller
             ]
         ], 201);
     }
+    public function search(Request $request){
+        $query = $request->input('q');
+
+        $properties = Property::where('title', 'like', "%{$query}")
+            ->orWhere('city', 'like', "%{$query}%")
+            ->orWhere('description', 'like', "%{$query}%")
+            ->orWhere('property_type', 'like', "%{$query}%")
+            ->orWhere('price', 'like', "%{$query}%")
+            ->orWhere('bedrooms', 'like', "%{$query}%")
+            ->get();
+
+            return response()->json($properties);
+    }
 };

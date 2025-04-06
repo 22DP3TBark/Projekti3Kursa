@@ -1,12 +1,45 @@
 <script setup>
-// <nav>
-//                 <input type="text" class="ListInput"  placeholder="Price">
-//                 <input type="text" class="ListInput" placeholder="">
-//                 <button class="ListButton">Search</button><h1>Propery Listings</h1>
-            
-        //    <p>Find your dream home</p>
-           
-//             </nav>
+import { ref, onMounted, watch } from "vue";
+import axiosClient from "../../axiosClient";
+
+
+const properties = ref([]);
+const searchQuery = ref("");
+const filteredProperties = ref([]);
+
+// Fetch properties
+const fetchProperties = async () => {
+  try {
+    const response = await axiosClient.get("/properties");
+    properties.value = response.data.properties; // Ensure this matches API response
+  } catch (error) {
+    console.error("Error fetching properties:", error);
+  }
+};
+
+
+// search properties
+const searchProperties = async () => {
+    if(!searchQuery.value) {
+        fetchProperties(); // Fetch all properties if search query is empty
+        return;
+    }
+
+
+    try {
+        const response = await axiosClient.get("/properties/search", {
+            params: {
+                q: searchQuery.value
+            }
+        })
+        properties.value = response.data
+    } catch (error){
+        console.error("Error searching properties:", error);
+    }
+}
+
+onMounted(fetchProperties);
+
 
 </script>
 
@@ -16,9 +49,9 @@
         <header class="header">
             <h1>Property Listings</h1>
             <div class="search">
-                <input type="text" class="ListInput"  placeholder="Price">
-                <input type="text" class="ListInput" placeholder="">
-                <button class="ListButton">Search</button>
+                <input v-model="searchQuery" @keyup="searchProperties" type="text" class="ListInput"  placeholder="🔍 Search properties by location, type, or keyword...">
+                
+                <button @click="searchProperties" class="ListButton">Search</button>
             </div>
         </header>
 
@@ -74,14 +107,21 @@
 
             <!-- Listings -->
             <section class="listings">
-                <h2>Avalibale Properties</h2>
+                <h2>Available Properties</h2>
                 <div class="properties-grid">
-                    <div class="property-card">
-                        <img  src="https://www.bhg.com/thmb/TD9qUnFen4PBLDuB2hn9yhGXPv8=/1866x0/filters:no_upscale():strip_icc()/white-house-a-frame-section-c0a4a3b3-e722202f114e4aeea4370af6dbb4312b.jpg" alt="">
-                        <h3>Jurmala </h3>
-                        <p>Adresse: Cinciski iela 50</p>
-                        <p>Price: 200 000</p>
-                        <p>Rooms: 4</p> 
+                    <div v-if="properties.length === 0" class="no-properties">
+                        <p>No properties available at the moment.</p>
+                    </div>
+                    <div v-else v-for="property in properties" :key="property.id" class="property-card">
+                        <div class="property-image-container">
+                            <img :src="property.main_image" alt="Property Image" class="property-image" />
+                        </div>
+                        <div class="property-details">
+                            <h3 class="property-title">{{ property.city }}</h3>
+                            <p class="property-address">{{ property.address }}</p>
+                            <p class="property-price">Price: ${{ property.price }}</p>
+                            <p class="property-rooms">Rooms: {{ property.bedrooms }}</p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -91,4 +131,6 @@
 
 <style scoped>
 @import '../assets/listings/Listings.css';
+
+
 </style>

@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 import adminService from '@/services/adminService'; // Adjust the path to your adminService.js
 import { useAuth } from "../stores/useAuth";
 import PropertyTableAdmin from '@/components/PropertyTableAdmin.vue';
+import Modal from '@/components/Model.vue'; // Import the Modal component
 
 const {user} = useAuth();
 
@@ -184,37 +185,41 @@ const handlesearch = (query) => {
 
             
                 <!-- Edit User Form -->
-                    <div v-if="selectedUser" class="edit-form">
-                    <h2>Edit User</h2>
-                    <form @submit.prevent="updateUser">
+                <Modal v-if="selectedUser" :close="() => selectedUser = null">
+                  
+                      <h2>Edit User</h2>
+                      <form @submit.prevent="updateUser">
                         <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input v-model="selectedUser.name" id="name" type="text" required />
+                          <label for="name">Name:</label>
+                          <input v-model="selectedUser.name" id="name" type="text" required />
                         </div>
                         <div class="form-group">
-                        <label for="lastname">Last Name:</label>
-                        <input v-model="selectedUser.lastname" id="lastname" type="text" required />
+                          <label for="lastname">Last Name:</label>
+                          <input v-model="selectedUser.lastname" id="lastname" type="text" required />
                         </div>
                         <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input v-model="selectedUser.email" id="email" type="email" required />
+                          <label for="email">Email:</label>
+                          <input v-model="selectedUser.email" id="email" type="email" required />
                         </div>
                         <div class="form-group">
-                        <label for="phonenumber">Phone Number:</label>
-                        <input v-model="selectedUser.phonenumber" id="phonenumber" type="text" required />
+                          <label for="phonenumber">Phone Number:</label>
+                          <input v-model="selectedUser.phone" id="phonenumber" type="text" required />
                         </div>
                         <div class="form-group">
-                        <label for="username">Username:</label>
-                        <input v-model="selectedUser.username" id="username" type="text" required />
+                          <label for="username">Username:</label>
+                          <input v-model="selectedUser.username" id="username" type="text" required />
                         </div>
                         <div class="form-group">
-                        <label for="password">Password (leave blank to keep unchanged):</label>
-                        <input v-model="selectedUser.password" id="password" type="password" />
+                          <label for="password">Password (leave blank to keep unchanged):</label>
+                          <input v-model="selectedUser.password" id="password" type="password" />
                         </div>
                         <button type="submit" class="btn btn-save">Save</button>
-                        <button @click="selectedUser = null" class="btn btn-cancel">Cancel</button>
-                    </form>
-                    </div>
+                        <button type="button" @click="selectedUser = null" class="btn btn-cancel">Cancel</button>
+                      </form>
+                    
+                </Modal>
+
+
                 </div>
                 <!-- Properties-->
                 <div v-if="showPropertiesTable">

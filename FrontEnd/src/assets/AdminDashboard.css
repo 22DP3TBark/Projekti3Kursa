@@ -15,7 +15,7 @@
   
   .sidebar {
     width: 250px;
-    background-color: rgb(30, 214, 214);
+    background-color: rgb(23, 6, 176);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     padding: 1.5rem;
     position: fixed;
@@ -173,6 +173,87 @@
 }
 
 .action-btn.delete:hover {
+    background-color: #c53030;
+}
+
+/* Modal container */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    width: 400px;
+    max-width: 90%;
+}
+
+/* Modal header */
+.modal-content h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+/* Form group */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #4a5568;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #2d3748;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.btn-save {
+    background-color: #3182ce;
+    color: #ffffff;
+}
+
+.btn-save:hover {
+    background-color: #2b6cb0;
+}
+
+.btn-cancel {
+    background-color: #e53e3e;
+    color: #ffffff;
+}
+
+.btn-cancel:hover {
     background-color: #c53030;
 }
 
