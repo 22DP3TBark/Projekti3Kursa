@@ -33,6 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/profile/update-password', [AuthController::class, 'updatePassword']); // Change password
 });
 
+Route::middleware('auth:sanctum')->get('/user/properties', [PropertyController::class, 'userProperties']);
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');

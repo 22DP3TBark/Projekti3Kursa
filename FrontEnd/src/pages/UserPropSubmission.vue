@@ -41,9 +41,17 @@ function handleMainImage(event) {
 }
 
 function handleGalleryImages(event) {
-  nextTick(() => {
-    galleryImages.value = Array.from(event.target.files);
+  const selectedFiles = Array.from(event.target.files);
+
+  // Ensure only valid image files are added
+  selectedFiles.forEach((file) => {
+    if (!galleryImages.value.some((f) => f.name === file.name && f.lastModified === file.lastModified)) {
+      galleryImages.value.push(file);
+    }
   });
+
+  // Reset input value to allow re-selection of the same file
+  event.target.value = "";
 }
 
 async function submitProperty() {
@@ -76,6 +84,7 @@ async function submitProperty() {
     formData.append("main_image", mainImage.value);
   }
 
+  // Append gallery images to FormData
   galleryImages.value.forEach((image, index) => {
     formData.append(`gallery[${index}]`, image);
   });
@@ -169,6 +178,12 @@ async function submitProperty() {
         <div class="form-group">
           <label>Gallery Images</label>
           <input type="file" multiple accept="image/*" @change="handleGalleryImages" />
+        </div>
+        <div class="form-group">
+          <h4>Selected Gallery Images:</h4>
+          <ul>
+            <li v-for="(image, index) in galleryImages" :key="index">{{ image.name }}</li>
+          </ul>
         </div>
       </div>
 

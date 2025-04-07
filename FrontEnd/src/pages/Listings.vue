@@ -1,11 +1,13 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import axiosClient from "../../axiosClient";
+import { useRoute } from "vue-router";
 
-
+const route = useRoute();   
 const properties = ref([]);
-const searchQuery = ref("");
+const searchQuery = ref(route.query.q || "");
 const filteredProperties = ref([]);
+
 
 // Fetch properties
 const fetchProperties = async () => {
@@ -38,8 +40,26 @@ const searchProperties = async () => {
     }
 }
 
-onMounted(fetchProperties);
+onMounted(() => {
+    if(searchQuery.value) {
+        searchProperties(); // Fetch properties based on search query
+    } else {
+        fetchProperties(); // Fetch all properties if no search query
+    }
+})
 
+// Also update results if the query changes (e.g., via router push)
+watch(
+  () => route.query.q,
+  (newQuery) => {
+    searchQuery.value = newQuery || "";
+    if (searchQuery.value) {
+      searchProperties();
+    } else {
+      fetchProperties();
+    }
+  }
+);
 
 </script>
 

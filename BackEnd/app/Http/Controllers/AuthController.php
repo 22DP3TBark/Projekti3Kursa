@@ -121,4 +121,8 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Password updated successfully']);
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

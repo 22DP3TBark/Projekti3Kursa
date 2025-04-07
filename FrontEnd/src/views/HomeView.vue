@@ -1,8 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axiosClient from '../../axiosClient';
+import { useRouter } from 'vue-router';
 
 const properties = ref([]);
+const searchQuery = ref('');
+const router = useRouter();
 
 const fetchProperties = async () => {
   try {
@@ -13,6 +16,14 @@ const fetchProperties = async () => {
     console.error("Error fetching properties:", error);
   }
 };
+// This runs when user clicks "Search" on homepage
+const handleSearch = () => {
+  if (searchQuery.value.trim()) {
+    router.push({ name: 'Listings', query: { q: searchQuery.value } });
+  }
+};
+
+
 
 onMounted(fetchProperties);
 
@@ -34,17 +45,10 @@ onMounted(fetchProperties);
           <div class="search-box">
             <div class="search-form">
               <div class="search-input">
-                <input type="text" placeholder="Location" />
+                <input v-model="searchQuery"  @keyup.enter="handleSearch" type="text" placeholder="🔍 Search properties by location, type, or keyword..." />
               </div>
-              <div class="search-input">
-                <select>
-                  <option>Cena</option>
-                  <option>$100k - $200k</option>
-                  <option>$200k - $500k</option>
-                  <option>$500k+</option>
-                </select>
-              </div>
-              <button class="button type1">
+             
+              <button @click="handleSearch"  class="button type1">
                 <span class="btn-txt">Search</span>
             </button>
             </div>

@@ -80,4 +80,93 @@
     border-radius: 5px;
     font-size: 16px;
   }
+  h2{
+    margin-bottom: 15px;
+  }
+
+h3 {
+  
+    font-size: 24px;
+    font-weight: bold;
+    color: #0b236b;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.LABEL {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.INPUT {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.INPUT:focus {
+    border-color: #0b236b;
+    outline: none;
+    box-shadow: 0 0 5px rgba(11, 35, 107, 0.5);
+}
+.Prop-container {
+ 
+}
+
+.UsersProperties {
+  display: grid;
+  grid-template-: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid layout */
+  flex-direction: row; /* Arrange items in a row */
+  align-items: center; /* Vertically center items */
+  gap: 20px; /* Add spacing between items */
+  margin-bottom: 20px;
+  background-color: #0b236b;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+  color: white;
+}
+
+.view-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.view-more button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #fff;
+  color: #0b236b;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.view-more button:hover {
+  background-color: #0b236b;
+  color: #fff;
+}
+
+li {
+  margin-bottom: 10px;
+  font-size: 16px;
+ 
+  list-style-type: none;
+}
+
+h4 {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  list-style-type: none;
+}
 

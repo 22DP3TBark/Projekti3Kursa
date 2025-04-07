@@ -122,4 +122,16 @@ class PropertyController extends Controller
 
             return response()->json($properties);
     }
+
+    public function properties(){
+        return $this->hasMany(Property::class);
+    }
+
+    public function userProperties()
+    {
+        $user = auth()->user();
+        $properties = $user->properties; // Assuming the User model has a `properties` relationship
+
+        return response()->json($properties);
+    }
 };
