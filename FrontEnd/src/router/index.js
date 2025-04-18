@@ -6,11 +6,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Profile from '@/pages/Profile.vue'
 
 import GuestLayout from '@/components/GuestLayout.vue';
-
-import  DefaultLayout from '@/components/DefaultLayout.vue';
-import Navbar from '@/components/Navbar.vue'
 import Listings from '@/pages/Listings.vue'
-import PropertySub from '@/pages/PropertySub.vue'
+
 import AdminPage from '@/components/AdminPage.vue'
 import PropertyList from '@/pages/PropertyList.vue'
 import UserPropertySub from '@/pages/UserPropSubmission.vue'
@@ -69,11 +66,6 @@ const routes = [
   //   component: NotFound,
   // },
   
-  {
-    path: '/sub',
-    name: 'PropertySub',
-    component: PropertySub
-  },
   {
     path: '/admin',
     name: 'Admin',

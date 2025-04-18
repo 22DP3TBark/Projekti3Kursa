@@ -2,23 +2,49 @@
 import { ref } from "vue";
 
 const currentStep = ref(1);
-const totalSteps = 3;
+const totalSteps = 5;
 
-// Form data
-const userType = ref({ value: "" }); // Changed to an object with a value property
+const userType = ref({ value: "" });
+
 const basicInfo = ref({
   title: "",
-  price: "",
-  address: "",
-  city: "",
-});
-const additionalInfo = ref({
-  bedrooms: "",
-  bathrooms: "",
-  amenities: [],
+  description: "",
+  purpose: "",
+  propertyType: "",
 });
 
-// Navigation methods
+const location = ref({
+  address: "",
+  city: "",
+  district: "",
+  zipCode: "",
+  country: "Latvia",
+  latitude: "",
+  longitude: "",
+});
+
+const details = ref({
+  bedrooms: "",
+  bathrooms: "",
+  size: "",
+  floor: "",
+  buildingType: "",
+  yearBuilt: "",
+  parkingSpaces: "",
+});
+
+const features = ref({
+  amenities: [],
+  mainImage: null,
+  gallery: [],
+});
+
+const pricing = ref({
+  price: "",
+  currency: "EUR",
+  status: "",
+});
+
 const nextStep = () => {
   if (currentStep.value < totalSteps) currentStep.value++;
 };
@@ -27,8 +53,23 @@ const prevStep = () => {
   if (currentStep.value > 1) currentStep.value--;
 };
 
+const handleMainImageUpload = (e) => {
+  features.value.mainImage = e.target.files[0];
+};
+
+const handleGalleryUpload = (e) => {
+  features.value.gallery = Array.from(e.target.files);
+};
+
 const submitForm = () => {
-  console.log("Form submitted:", { userType: userType.value, basicInfo, additionalInfo });
+  console.log("Submitted data:", {
+    userType: userType.value,
+    basicInfo: basicInfo.value,
+    location: location.value,
+    details: details.value,
+    features: features.value,
+    pricing: pricing.value,
+  });
 };
 </script>
 
@@ -46,235 +87,283 @@ const submitForm = () => {
       </div>
     </div>
 
-    <!-- Step 1: User Type -->
+    <!-- Step Content -->
     <div v-if="currentStep === 1" class="step">
-      <h2>Who are you?</h2>
-      <div class="user-type-options">
-        <button
-          class="option-button"
-          :class="{ selected: userType.value === 'Real Estate Company' }"
-          @click="userType.value = 'Real Estate Company'"
-        >
-          Real Estate Company
-        </button>
-        <button
-          class="option-button"
-          :class="{ selected: userType.value === 'Private Citizen' }"
-          @click="userType.value = 'Private Citizen'"
-        >
-          Private Citizen
-        </button>
+      <h2>Step 1: Basic Info</h2>
+      <div class="form-group">
+        <label>Who are you?</label>
+        <div class="user-type-options">
+          <button
+            class="option-button"
+            :class="{ selected: userType.value === 'Real Estate Company' }"
+            @click="userType.value = 'Real Estate Company'"
+          >
+            Real Estate Company
+          </button>
+          <button
+            class="option-button"
+            :class="{ selected: userType.value === 'Private Citizen' }"
+            @click="userType.value = 'Private Citizen'"
+          >
+            Private Citizen
+          </button>
+        </div>
       </div>
-      <div class="navigation-buttons">
-        <button @click="nextStep" :disabled="!userType.value" class="next-button">
-          Next
-        </button>
-      </div>
-    </div>
 
-    <!-- Step 2: Basic Information -->
-    <div v-if="currentStep === 2" class="step">
-      <h2>Basic Information</h2>
       <div class="form-group">
         <label>Title</label>
         <input v-model="basicInfo.title" type="text" placeholder="Listing Title" />
       </div>
       <div class="form-group">
-        <label>Price</label>
-        <input v-model="basicInfo.price" type="number" placeholder="Price" />
+        <label>Description</label>
+        <textarea v-model="basicInfo.description" placeholder="Property Description"></textarea>
       </div>
       <div class="form-group">
-        <label>Address</label>
-        <input v-model="basicInfo.address" type="text" placeholder="Address" />
+        <label>Purpose</label>
+        <select v-model="basicInfo.purpose">
+          <option disabled value="">Select purpose</option>
+          <option>Sell</option>
+          <option>Rent</option>
+        </select>
       </div>
       <div class="form-group">
-        <label>City</label>
-        <input v-model="basicInfo.city" type="text" placeholder="City" />
+        <label>Property Type</label>
+        <input v-model="basicInfo.propertyType" type="text" placeholder="e.g. Dzīvoklis, Māja" />
       </div>
+
       <div class="navigation-buttons">
-        <button @click="prevStep" class="back-button">Back</button>
-        <button
-          @click="nextStep"
-          :disabled="!basicInfo.title || !basicInfo.price || !basicInfo.address || !basicInfo.city"
-          class="next-button"
-        >
+        <button @click="nextStep" :disabled="!userType.value || !basicInfo.title || !basicInfo.description || !basicInfo.purpose || !basicInfo.propertyType">
           Next
         </button>
       </div>
     </div>
 
-    <!-- Step 3: Additional Information -->
+    <div v-if="currentStep === 2" class="step">
+      <h2>Step 2: Location</h2>
+      <div class="form-grid">
+        <div class="form-group"><label>Address</label><input v-model="location.address" type="text" /></div>
+        <div class="form-group"><label>City</label><input v-model="location.city" type="text" /></div>
+        <div class="form-group"><label>District</label><input v-model="location.district" type="text" /></div>
+        <div class="form-group"><label>ZIP Code</label><input v-model="location.zipCode" type="text" /></div>
+        <div class="form-group"><label>Country</label><input v-model="location.country" type="text" disabled /></div>
+        <div class="form-group"><label>Latitude</label><input v-model="location.latitude" type="text" /></div>
+        <div class="form-group"><label>Longitude</label><input v-model="location.longitude" type="text" /></div>
+      </div>
+
+      <div class="navigation-buttons">
+        <button @click="prevStep">Back</button>
+        <button @click="nextStep">Next</button>
+      </div>
+    </div>
+
     <div v-if="currentStep === 3" class="step">
-      <h2>Additional Information</h2>
-      <div class="form-group">
-        <label>Bedrooms</label>
-        <input v-model="additionalInfo.bedrooms" type="number" placeholder="Number of Bedrooms" />
+      <h2>Step 3: Property Details</h2>
+      <div class="form-grid">
+        <div class="form-group"><label>Bedrooms</label><input v-model="details.bedrooms" type="number" /></div>
+        <div class="form-group"><label>Bathrooms</label><input v-model="details.bathrooms" type="number" /></div>
+        <div class="form-group"><label>Size (m²)</label><input v-model="details.size" type="number" /></div>
+        <div class="form-group"><label>Floor</label><input v-model="details.floor" type="number" /></div>
+        <div class="form-group"><label>Building Type</label><input v-model="details.buildingType" type="text" /></div>
+        <div class="form-group"><label>Year Built</label><input v-model="details.yearBuilt" type="number" /></div>
+        <div class="form-group"><label>Parking Spaces</label><input v-model="details.parkingSpaces" type="number" /></div>
       </div>
-      <div class="form-group">
-        <label>Bathrooms</label>
-        <input v-model="additionalInfo.bathrooms" type="number" placeholder="Number of Bathrooms" />
+
+      <div class="navigation-buttons">
+        <button @click="prevStep">Back</button>
+        <button @click="nextStep">Next</button>
       </div>
+    </div>
+
+    <div v-if="currentStep === 4" class="step">
+      <h2>Step 4: Features & Images</h2>
       <div class="form-group">
         <label>Amenities</label>
         <div class="checkbox-group">
-          <label><input type="checkbox" value="Balcony" v-model="additionalInfo.amenities" /> Balcony</label>
-          <label><input type="checkbox" value="Garage" v-model="additionalInfo.amenities" /> Garage</label>
-          <label><input type="checkbox" value="Swimming Pool" v-model="additionalInfo.amenities" /> Swimming Pool</label>
+          <label><input type="checkbox" value="Balcony" v-model="features.amenities" /> Balcony</label>
+          <label><input type="checkbox" value="Garage" v-model="features.amenities" /> Garage</label>
+          <label><input type="checkbox" value="Swimming Pool" v-model="features.amenities" /> Swimming Pool</label>
+          <label><input type="checkbox" value="Garden" v-model="features.amenities" /> Garden</label>
+          <label><input type="checkbox" value="Furnished" v-model="features.amenities" /> Furnished</label>
         </div>
       </div>
+      <div class="form-group"><label>Main Image</label><input type="file" accept="image/*" @change="handleMainImageUpload" /></div>
+      <div class="form-group"><label>Gallery Images</label><input type="file" accept="image/*" multiple @change="handleGalleryUpload" /></div>
+
       <div class="navigation-buttons">
-        <button @click="prevStep" class="back-button">Back</button>
-        <button @click="submitForm" class="submit-button">Submit</button>
+        <button @click="prevStep">Back</button>
+        <button @click="nextStep">Next</button>
+      </div>
+    </div>
+
+    <div v-if="currentStep === 5" class="step">
+      <h2>Step 5: Price & Status</h2>
+      <div class="form-group"><label>Price</label><input v-model="pricing.price" type="number" /></div>
+      <div class="form-group"><label>Currency</label><input v-model="pricing.currency" type="text" disabled /></div>
+      <div class="form-group">
+        <label>Status</label>
+        <select v-model="pricing.status">
+          <option disabled value="">Select status</option>
+          <option>Available</option>
+          <option>Sold</option>
+          <option>Rented</option>
+        </select>
+      </div>
+
+      <div class="navigation-buttons">
+        <button @click="prevStep">Back</button>
+        <button @click="submitForm">Submit</button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* Center form in full page */
 body, html {
   height: 100%;
   margin: 0;
 }
 
 .submission-container {
-  max-width: 600px;
-  width: 90%;
-  margin: auto;
-  padding: 2rem;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  font-family: 'Inter', sans-serif;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  min-height: 100vh;
 }
 
-/* Progress Indicator */
 .progress-indicator {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 2rem;
+  justify-content: center;
+  margin-bottom: 36px;
+  gap: 14px;
 }
 
 .progress-step {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #e5e7eb;
   border-radius: 50%;
-  background: #ddd;
-  color: #fff;
-  font-weight: bold;
-  transition: background 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  color: #6b7280;
+  transition: all 0.2s;
 }
 
 .progress-step.active {
-  background: #007bff;
+  background-color: #3b82f6;
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
 }
 
-/* Headings */
 .step h2 {
-  margin-bottom: 1.5rem;
   font-size: 1.75rem;
-  color: #333;
-  text-align: center;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #111827;
 }
 
-/* Form Fields */
 .form-group {
-  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  flex: 1;
 }
 
 .form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #444;
+  margin-bottom: 8px;
+  color: #374151;
+  font-weight: 500;
 }
 
-.form-group input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
+input,
+select,
+textarea {
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background-color: #f9fafb;
+  transition: border-color 0.3s ease;
 }
 
-/* Checkboxes */
-.checkbox-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #555;
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #3b82f6;
+  outline: none;
+  background-color: #ffffff;
 }
 
-/* Navigation */
-.navigation-buttons {
+.checkbox-group {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1.5rem;
+  flex-wrap: wrap;
+  gap: 10px 20px;
 }
 
-button {
-  padding: 0.75rem 1.25rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.next-button {
-  background: #007bff;
-  color: #fff;
-}
-
-.back-button {
-  background: #ccc;
-  color: #333;
-}
-
-.submit-button {
-  background: #28a745;
-  color: #fff;
-}
-
-button:disabled {
-  background: #e0e0e0;
-  color: #aaa;
-  cursor: not-allowed;
-}
-
-/* User Type Buttons */
 .user-type-options {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
 }
 
 .option-button {
-  padding: 1rem 1.5rem;
-  border: 2px solid #ccc;
+  padding: 10px 18px;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
   border-radius: 10px;
-  background: #fff;
   cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.option-button.selected {
-  background: #007bff;
-  color: #fff;
-  border-color: #007bff;
+  font-weight: 500;
+  color: #374151;
+  transition: all 0.2s ease-in-out;
 }
 
 .option-button:hover {
-  border-color: #007bff;
+  background-color: #e5e7eb;
+}
+
+.option-button.selected {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-color: #3b82f6;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.navigation-buttons button {
+  padding: 14px 26px;
+  background-color: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+  font-size: 1rem;
+}
+
+.navigation-buttons button:hover {
+  background-color: #2563eb;
+}
+
+.navigation-buttons button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.form-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 </style>

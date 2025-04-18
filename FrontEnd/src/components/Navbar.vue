@@ -28,6 +28,7 @@ console.log(user.value)
         <li class="button-33"><router-link  to="/list">Listings</router-link></li>
         <li class="button-33" v-if="isAdmin"><router-link to="/admindash">Dashboard </router-link></li>
         <li class="button-33" v-if="isAuthenticated"><router-link to="/userprop">Property </router-link></li>
+        <li class="button-33" v-if="isAuthenticated"><router-link to="/property-submission">Prop Sub</router-link></li>
        
       </ul>
       </div>
