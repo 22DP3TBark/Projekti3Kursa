@@ -1,0 +1,40 @@
+<div class="property-details-container">
+    <div v-if="errorMessage" class="error-message">
+      <p>{{ errorMessage }}</p>
+    </div>
+    <div v-else-if="property" class="property-details">
+      <div class="property-content">
+        <img :src="property.main_image" alt="Property Image" class="property-image" />
+        <div class="property-info">
+          <h1 class="property-title">{{ property.title }}</h1>
+          <p><strong>Address:</strong> {{ property.address }}</p>
+          <p><strong>City:</strong> {{ property.city }}</p>
+          <p><strong>State:</strong> {{ property.state }}</p>
+          <p><strong>Country:</strong> {{ property.country }}</p>
+          <p><strong>Zip Code:</strong> {{ property.zip_code }}</p>
+          <p><strong>Price:</strong> ${{ property.price }}</p>
+          <p><strong>Bedrooms:</strong> {{ property.bedrooms }}</p>
+          <p><strong>Bathrooms:</strong> {{ property.bathrooms }}</p>
+          <p><strong>Size:</strong> {{ property.size }} sq ft</p>
+          <p><strong>Year Built:</strong> {{ property.year_built }}</p>
+          <p><strong>Parking Spaces:</strong> {{ property.parking_spaces }}</p>
+          <p><strong>Balcony:</strong> {{ property.balcony ? 'Yes' : 'No' }}</p>
+          <p><strong>Garage:</strong> {{ property.garage ? 'Yes' : 'No' }}</p>
+          <p><strong>Swimming Pool:</strong> {{ property.swimming_pool ? 'Yes' : 'No' }}</p>
+          <p><strong>Garden:</strong> {{ property.garden ? 'Yes' : 'No' }}</p>
+          <p><strong>Furnished:</strong> {{ property.furnished ? 'Yes' : 'No' }}</p>
+          <p><strong>Status:</strong> {{ property.status }}</p>
+          <p><strong>Description:</strong> {{ property.description }}</p>
+        </div>
+      </div>
+      <div v-if="property.gallery && property.gallery.length" class="property-gallery">
+        <h2>Gallery</h2>
+        <div class="gallery-images">
+          <img v-for="(image, index) in property.gallery" :key="index" :src="image" alt="Gallery Image" />
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <p>Loading property details...</p>
+    </div>
+  </div>

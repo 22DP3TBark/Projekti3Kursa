@@ -80,6 +80,7 @@ const validateForm = () => {
               <label for="password">Password</label>
               <input type="password" id="password" v-model="password" required />
             </div>
+            <router-link to="/forgotPassword"><button type="button" class="forgot-password" @click="forgotPassword">Forgot Password?</button></router-link>
 
             <button type="submit" class="btn-login">Login</button>
             

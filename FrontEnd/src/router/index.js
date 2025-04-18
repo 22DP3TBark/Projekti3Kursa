@@ -1,4 +1,3 @@
-
 import Login from '@/views/LoginView.vue'
 import HomeView from '@/views/HomeView.vue'
 import Register from '@/views/RegisterView.vue'
@@ -17,6 +16,10 @@ import PropertyList from '@/pages/PropertyList.vue'
 import UserPropertySub from '@/pages/UserPropSubmission.vue'
 import AdminDash from '@/pages/AdminDashBoard.vue'
 import UserTable from '@/views/UsersViewAdmin.vue'
+import ForgotPassword from '@/views/ForgotPassword.vue'
+import PropertyPage from '@/pages/PropertyDetailsPage.vue'
+import PropertySubmission from "../pages/PropertySubmission.vue";
+
 const routes = [
   {
     path: "/",
@@ -90,7 +93,22 @@ const routes = [
     path: '/usertable',
     name: 'UserTable',
     component: UserTable,
-  }
+  },
+  {
+    path: '/properties/:id',
+    name: 'PropertyDetails',
+    component: PropertyPage,
+  },
+  {
+    path: '/forgotPassword',
+    name: 'ForgotPassword',
+    component: ForgotPassword,	
+  },
+  {
+    path: "/property-submission",
+    name: "PropertySubmission",
+    component: PropertySubmission,
+  },
 ];
 
 
