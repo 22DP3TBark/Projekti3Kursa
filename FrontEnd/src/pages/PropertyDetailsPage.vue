@@ -2,10 +2,13 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axiosClient from '../../axiosClient';
+import PropertyMap from '../components/PropertyMap.vue';
+import MortgageCalculator from '@/components/MoregageCalc.vue';
 
 const route = useRoute();
 const property = ref(null);
 const errorMessage = ref(null);
+const activeTab = ref('property'); // controls which tab is active
 
 const fetchProperty = async () => {
   try {
@@ -21,14 +24,21 @@ onMounted(fetchProperty);
 </script>
 
 <template>
+  <!-- 🔹 Top Tab Navigation -->
+  <nav class="property-tabs">
+    <button :class="{ active: activeTab === 'property' }" @click="activeTab = 'property'">Property</button>
+    <button :class="{ active: activeTab === 'map' }" @click="activeTab = 'map'">Map</button>
+    <button :class="{ active: activeTab === 'calculator' }" @click="activeTab = 'calculator'">Calculator</button>
+  </nav>
+
+  <!-- 🔹 Main Content -->
   <main class="property-details-container" v-if="property">
-    <div class="main-content">
+    
+    <!-- Property Tab Content -->
+    <div v-if="activeTab === 'property'" class="main-content">
       <!-- Left Side - Image -->
       <div class="image-gallery">
         <img :src="property.main_image || '/assets/placeholder.jpg'" alt="Main Property" />
-        <div class="thumbnails">
-          <img v-for="(img, index) in property.gallery || []" :key="index" :src="img" alt="Gallery" />
-        </div>
       </div>
 
       <!-- Right Side - Info -->
@@ -72,6 +82,16 @@ onMounted(fetchProperty);
       </div>
     </div>
 
+    <!-- Map Tab Content -->
+    <div v-else-if="activeTab === 'map'" class="tab-content">
+      <PropertyMap />
+    </div>
+
+    <!-- Calculator Tab Content -->
+    <div v-else-if="activeTab === 'calculator'" class="tab-content">
+      <MortgageCalculator />
+    </div>
+
     <!-- Agent Section -->
     <div class="agent-box">
       <div class="agent-info">
@@ -94,7 +114,6 @@ onMounted(fetchProperty);
 
   <div v-else class="loading">Loading property...</div>
 </template>
-
 <style scoped>
-@import '../assets/listings/PropertyPage.css'
+@import '../assets/listings/PropertyPage.css';
 </style>

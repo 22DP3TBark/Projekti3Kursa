@@ -3,6 +3,7 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import api from './Plugins/VUEapi.js'
+import 'leaflet/dist/leaflet.css';
 
 
 

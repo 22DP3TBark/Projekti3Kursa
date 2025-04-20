@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import axiosClient from "../../axiosClient";
 
 const currentStep = ref(1);
 const totalSteps = 5;
@@ -61,6 +62,70 @@ const handleGalleryUpload = (e) => {
   features.value.gallery = Array.from(e.target.files);
 };
 
+const UserPropSubmission = async () => {
+  console.log("UserPropSubmission function called"); // Debug log
+  try {
+    // Prepare FormData for file uploads
+    const formData = new FormData();
+    formData.append("userType", userType.value); // Ensure userType is appended correctly
+    formData.append("title", basicInfo.value.title);
+    formData.append("description", basicInfo.value.description);
+    formData.append("purpose", basicInfo.value.purpose);
+    formData.append("property_type", basicInfo.value.propertyType); // Corrected field name
+    formData.append("address", location.value.address);
+    formData.append("city", location.value.city);
+    formData.append("district", location.value.district); // Ensure district is appended
+    formData.append("zip_code", location.value.zipCode); // Corrected field name
+    formData.append("country", location.value.country);
+    formData.append("latitude", location.value.latitude);
+    formData.append("longitude", location.value.longitude);
+    formData.append("bedrooms", details.value.bedrooms);
+    formData.append("bathrooms", details.value.bathrooms);
+    formData.append("size", details.value.size);
+    formData.append("floor", details.value.floor); // Ensure floor is appended
+    formData.append("building_type", details.value.buildingType); // Corrected field name
+    formData.append("year_built", details.value.yearBuilt); // Corrected field name
+    formData.append("parking_spaces", details.value.parkingSpaces); // Corrected field name
+    formData.append("price", pricing.value.price);
+    formData.append("currency", pricing.value.currency);
+    formData.append("status", pricing.value.status);
+
+    // Append main image
+    if (features.value.mainImage) {
+      formData.append("main_image", features.value.mainImage); // Corrected field name
+    }
+
+    // Append gallery images
+    if (features.value.gallery.length > 0) {
+      features.value.gallery.forEach((file, index) => {
+        formData.append(`gallery[${index}]`, file);
+      });
+    }
+
+    // Append amenities as a JSON string
+    formData.append("amenities", JSON.stringify(features.value.amenities));
+    formData.append("balcony", features.value.amenities.includes("Balcony") ? 1 : 0);
+    formData.append("garage", features.value.amenities.includes("Garage") ? 1 : 0);
+    formData.append("swimming_pool", features.value.amenities.includes("Swimming Pool") ? 1 : 0);
+    formData.append("garden", features.value.amenities.includes("Garden") ? 1 : 0);
+    formData.append("furnished", features.value.amenities.includes("Furnished") ? 1 : 0);
+
+    console.log('FormData being sent:', Object.fromEntries(formData.entries())); // Log FormData
+
+    // Send the request
+    const response = await axiosClient.post("/properties", formData);
+
+    console.log("Property submitted successfully:", response.data);
+    alert("Property submitted successfully!");
+  } catch (error) {
+    console.error("Error submitting property:", error.message);
+    if (error.response) {
+      console.error("Response data:", error.response.data);
+    }
+    alert("Failed to submit property. Please try again.");
+  }
+};
+
 const submitForm = () => {
   console.log("Submitted data:", {
     userType: userType.value,
@@ -95,39 +160,39 @@ const submitForm = () => {
         <div class="user-type-options">
           <button
             class="option-button"
-            :class="{ selected: userType.value === 'Real Estate Company' }"
-            @click="userType.value = 'Real Estate Company'"
+            :class="{ selected: userType.value === 'company' }"
+            @click="userType.value = 'company'"
           >
-            Real Estate Company
+            Nekustamo īpašumu aģentūra
           </button>
           <button
             class="option-button"
-            :class="{ selected: userType.value === 'Private Citizen' }"
-            @click="userType.value = 'Private Citizen'"
+            :class="{ selected: userType.value === 'private' }"
+            @click="userType.value = 'private'"
           >
-            Private Citizen
+            Privat Persona
           </button>
         </div>
       </div>
 
       <div class="form-group">
-        <label>Title</label>
+        <label>Virsraksts</label>
         <input v-model="basicInfo.title" type="text" placeholder="Listing Title" />
       </div>
       <div class="form-group">
-        <label>Description</label>
+        <label>Apraksts</label>
         <textarea v-model="basicInfo.description" placeholder="Property Description"></textarea>
       </div>
       <div class="form-group">
-        <label>Purpose</label>
+        <label>Mērķis</label>
         <select v-model="basicInfo.purpose">
           <option disabled value="">Select purpose</option>
-          <option>Sell</option>
-          <option>Rent</option>
+          <option>Pārdot</option>
+          <option>īrēt</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Property Type</label>
+        <label>īpašuma tips</label>
         <input v-model="basicInfo.propertyType" type="text" placeholder="e.g. Dzīvoklis, Māja" />
       </div>
 
@@ -141,11 +206,11 @@ const submitForm = () => {
     <div v-if="currentStep === 2" class="step">
       <h2>Step 2: Location</h2>
       <div class="form-grid">
-        <div class="form-group"><label>Address</label><input v-model="location.address" type="text" /></div>
-        <div class="form-group"><label>City</label><input v-model="location.city" type="text" /></div>
-        <div class="form-group"><label>District</label><input v-model="location.district" type="text" /></div>
-        <div class="form-group"><label>ZIP Code</label><input v-model="location.zipCode" type="text" /></div>
-        <div class="form-group"><label>Country</label><input v-model="location.country" type="text" disabled /></div>
+        <div class="form-group"><label>Adrese</label><input v-model="location.address" type="text" /></div>
+        <div class="form-group"><label>Pilsēta</label><input v-model="location.city" type="text" /></div>
+        <div class="form-group"><label>Rajons</label><input v-model="location.district" type="text" /></div>
+        <div class="form-group"><label>Zip kods</label><input v-model="location.zipCode" type="text" /></div>
+        <div class="form-group"><label>Valts</label><input v-model="location.country" type="text" disabled /></div>
         <div class="form-group"><label>Latitude</label><input v-model="location.latitude" type="text" /></div>
         <div class="form-group"><label>Longitude</label><input v-model="location.longitude" type="text" /></div>
       </div>
@@ -159,13 +224,13 @@ const submitForm = () => {
     <div v-if="currentStep === 3" class="step">
       <h2>Step 3: Property Details</h2>
       <div class="form-grid">
-        <div class="form-group"><label>Bedrooms</label><input v-model="details.bedrooms" type="number" /></div>
-        <div class="form-group"><label>Bathrooms</label><input v-model="details.bathrooms" type="number" /></div>
-        <div class="form-group"><label>Size (m²)</label><input v-model="details.size" type="number" /></div>
-        <div class="form-group"><label>Floor</label><input v-model="details.floor" type="number" /></div>
-        <div class="form-group"><label>Building Type</label><input v-model="details.buildingType" type="text" /></div>
-        <div class="form-group"><label>Year Built</label><input v-model="details.yearBuilt" type="number" /></div>
-        <div class="form-group"><label>Parking Spaces</label><input v-model="details.parkingSpaces" type="number" /></div>
+        <div class="form-group"><label>Guļamistabas</label><input v-model="details.bedrooms" type="number" /></div>
+        <div class="form-group"><label>Vannas Izstaba</label><input v-model="details.bathrooms" type="number" /></div>
+        <div class="form-group"><label>izmērs(m²)</label><input v-model="details.size" type="number" /></div>
+        <div class="form-group"><label>stāvs</label><input v-model="details.floor" type="number" /></div>
+        <div class="form-group"><label>īpašuma tips</label><input v-model="details.buildingType" type="text" /></div>
+        <div class="form-group"><label>Uzcelšanas gads</label><input v-model="details.yearBuilt" type="number" /></div>
+        <div class="form-group"><label>Parkings</label><input v-model="details.parkingSpaces" type="number" /></div>
       </div>
 
       <div class="navigation-buttons">
@@ -179,11 +244,11 @@ const submitForm = () => {
       <div class="form-group">
         <label>Amenities</label>
         <div class="checkbox-group">
-          <label><input type="checkbox" value="Balcony" v-model="features.amenities" /> Balcony</label>
-          <label><input type="checkbox" value="Garage" v-model="features.amenities" /> Garage</label>
-          <label><input type="checkbox" value="Swimming Pool" v-model="features.amenities" /> Swimming Pool</label>
-          <label><input type="checkbox" value="Garden" v-model="features.amenities" /> Garden</label>
-          <label><input type="checkbox" value="Furnished" v-model="features.amenities" /> Furnished</label>
+          <label><input type="checkbox" value="Balcony" v-model="features.amenities" /> Balkons</label>
+          <label><input type="checkbox" value="Garage" v-model="features.amenities" /> Garāža</label>
+          <label><input type="checkbox" value="Swimming Pool" v-model="features.amenities" /> Baseins</label>
+          <label><input type="checkbox" value="Garden" v-model="features.amenities" /> Dārzs</label>
+          <label><input type="checkbox" value="Furnished" v-model="features.amenities" />Mebeles</label>
         </div>
       </div>
       <div class="form-group"><label>Main Image</label><input type="file" accept="image/*" @change="handleMainImageUpload" /></div>
@@ -197,7 +262,7 @@ const submitForm = () => {
 
     <div v-if="currentStep === 5" class="step">
       <h2>Step 5: Price & Status</h2>
-      <div class="form-group"><label>Price</label><input v-model="pricing.price" type="number" /></div>
+      <div class="form-group"><label>Cena</label><input v-model="pricing.price" type="number" /></div>
       <div class="form-group"><label>Currency</label><input v-model="pricing.currency" type="text" disabled /></div>
       <div class="form-group">
         <label>Status</label>
@@ -210,8 +275,8 @@ const submitForm = () => {
       </div>
 
       <div class="navigation-buttons">
-        <button @click="prevStep">Back</button>
-        <button @click="submitForm">Submit</button>
+        <button @click="prevStep">Back</button> <!-- Ensure this is correctly bound -->
+        <button @click="UserPropSubmission">Submit</button>
       </div>
     </div>
   </div>

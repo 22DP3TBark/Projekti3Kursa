@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class PropertyController extends Controller
 {
@@ -19,6 +20,8 @@ class PropertyController extends Controller
 
     public function store(Request $request)
     {
+        Log::info('Incoming request data:', $request->all()); // Log incoming request data
+
         $validator = Validator::make($request->all(), [
             'title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
@@ -31,7 +34,7 @@ class PropertyController extends Controller
             'zip_code' => 'nullable|string',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
-            'purpose' => 'nullable|in:sell,rent',
+            'purpose' => 'nullable|in:Pārdot,īrēt',
             'property_type' => 'nullable|in:dzivoklis,maja,birojs,zeme,studio,villa',
             'bedrooms' => 'nullable|integer|min:0',
             'bathrooms' => 'nullable|integer|min:0',
@@ -47,73 +50,77 @@ class PropertyController extends Controller
             'swimming_pool' => 'nullable|boolean',
             'garden' => 'nullable|boolean',
             'furnished' => 'nullable|boolean',
-            'status' => 'nullable|in:available,sold,rented',
+            'status' => 'nullable|in:Available,Sold,Rented',
         ]);
 
         if ($validator->fails()) {
+            Log::error('Validation errors:', $validator->errors()->toArray()); // Log validation errors
             return response()->json(['errors' => $validator->errors()], 422);
         }
           // Handle default values
     $country = $request->input('country', 'Latvia'); // Set default value for country
 
-        // Handle main image upload
-        $mainImagePath = null;
-        if ($request->hasFile('main_image')) {
-            $mainImagePath = $request->file('main_image')->store('properties', 'public');
-        }
-
-        // Handle gallery images
-        $galleryPaths = [];
-        if ($request->hasFile('gallery')) {
-            foreach ($request->file('gallery') as $image) {
-                $galleryPaths[] = $image->store('properties/gallery', 'public');
+        
+            // Handle main image upload
+            $mainImagePath = null;
+            if ($request->hasFile('main_image')) {
+                $mainImagePath = $request->file('main_image')->store('properties', 'public');
             }
-        }
 
-        // Create the property record in the database
-        $property = Property::create([
-            'user_id' => auth()->id(), // Assuming user is authenticated
-            'listing_type' => 'nullable|in:private,company',
-            'title' => $request->title,
-            'description' => $request->description,
-            'price' => $request->price,
-            'currency' => $request->currency ?? 'EUR',
-            'address' => $request->address,
-            'city' => $request->city,
-            'district' => $request->district,
-            'country' => $country,
-            'zip_code' => $request->zip_code,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'purpose' => $request->purpose ?? 'sell',
-            'property_type' => $request->property_type,
-            'bedrooms' => $request->bedrooms,
-            'bathrooms' => $request->bathrooms,
-            'size' => $request->size,
-            'floor' => $request->floor,
-            'building_type' => $request->building_type,
-            'year_built' => $request->year_built,
-            'parking_spaces' => $request->parking_spaces,
-            'main_image' => $mainImagePath ? asset('storage/' . $mainImagePath) : null,
-            'gallery' => $galleryPaths ? json_encode(array_map(fn($path) => asset('storage/' . $path), $galleryPaths)) : json_encode([]),
-            'balcony' => $request->balcony,
-            'garage' => $request->garage,
-            'swimming_pool' => $request->swimming_pool,
-            'garden' => $request->garden,
-            'furnished' => $request->furnished,
-            'status' => $request->status ?? 'available',
-        ]);
+            // Handle gallery images
+            $galleryPaths = [];
+            if ($request->hasFile('gallery')) {
+                foreach ($request->file('gallery') as $image) {
+                    $galleryPaths[] = $image->store('properties/gallery', 'public');
+                }
+            }
 
-        return response()->json([
-            'message' => 'Property added successfully!',
-            'property' => $property
-        ], 201);
+            // Create the property record in the database
+            $property = Property::create([
+                'user_id' => auth()->id(), // Assuming user is authenticated
+                'listing_type' => 'nullable|in:private,company',
+                'title' => $request->title,
+                'description' => $request->description,
+                'price' => $request->price,
+                'currency' => $request->currency ?? 'EUR',
+                'address' => $request->address,
+                'city' => $request->city,
+                'district' => $request->district, // Ensure district is saved
+                'country' => $country,
+                'zip_code' => $request->zip_code, // Corrected field name
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'purpose' => $request->purpose ?? 'sell',
+                'property_type' => $request->property_type, // Ensure property_type is saved
+                'bedrooms' => $request->bedrooms,
+                'bathrooms' => $request->bathrooms,
+                'size' => $request->size,
+                'floor' => $request->floor, // Ensure floor is saved
+                'building_type' => $request->building_type, // Ensure building_type is saved
+                'year_built' => $request->year_built, // Corrected field name
+                'parking_spaces' => $request->parking_spaces, // Corrected field name
+                'main_image' => $mainImagePath ? asset('storage/' . $mainImagePath) : null, // Ensure main_image is saved
+                'gallery' => $galleryPaths ? json_encode(array_map(fn($path) => asset('storage/' . $path), $galleryPaths)) : json_encode([]),
+                'balcony' => $request->balcony,
+                'garage' => $request->garage,
+                'swimming_pool' => $request->swimming_pool,
+                'garden' => $request->garden,
+                'furnished' => $request->furnished,
+                'status' => $request->status ?? 'available',
+            ]);
+
+            Log::info('Property created successfully:', $property->toArray()); // Log successful creation
+            Log::info('District value:', ['district' => $request->district]); // Log district value
+            return response()->json([
+                'message' => 'Property added successfully!',
+                'property' => $property,
+            ], 201);
+        
     }
 
     public function search(Request $request)
     {
         $query = $request->input('q');
-
         $properties = Property::where('title', 'like', "%{$query}%")
             ->orWhere('city', 'like', "%{$query}%")
             ->orWhere('description', 'like', "%{$query}%")
@@ -128,7 +135,6 @@ class PropertyController extends Controller
     public function show($id)
     {
         $property = Property::find($id);
-
         if (!$property) {
             return response()->json(['message' => 'Property not found'], 404);
         }

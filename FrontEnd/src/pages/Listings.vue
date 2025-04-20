@@ -132,7 +132,14 @@ watch(
                     <div v-if="properties.length === 0" class="no-properties">
                         <p>No properties available at the moment.</p>
                     </div>
-                    <div v-else v-for="property in properties" :key="property.id" class="property-card">
+                    <div 
+                        v-else 
+                        v-for="property in properties" 
+                        :key="property.id" 
+                        class="property-card"
+                        @click="$router.push({ name: 'PropertyDetails', params: { id: property.id } })"
+                        style="cursor: pointer;"
+                    >
                         <div class="property-image-container">
                             <img :src="property.main_image" alt="Property Image" class="property-image" />
                         </div>
