@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import axiosClient from "../../axiosClient";
+import LocationStep from '../components/LocationStep.vue';
 
 const currentStep = ref(1);
 const totalSteps = 5;
@@ -64,6 +65,8 @@ const handleGalleryUpload = (e) => {
 
 const UserPropSubmission = async () => {
   console.log("UserPropSubmission function called"); // Debug log
+  console.log("Location data before submission:", location.value); // Log location data
+
   try {
     // Prepare FormData for file uploads
     const formData = new FormData();
@@ -72,13 +75,13 @@ const UserPropSubmission = async () => {
     formData.append("description", basicInfo.value.description);
     formData.append("purpose", basicInfo.value.purpose);
     formData.append("property_type", basicInfo.value.propertyType); // Corrected field name
-    formData.append("address", location.value.address);
-    formData.append("city", location.value.city);
-    formData.append("district", location.value.district); // Ensure district is appended
-    formData.append("zip_code", location.value.zipCode); // Corrected field name
-    formData.append("country", location.value.country);
-    formData.append("latitude", location.value.latitude);
-    formData.append("longitude", location.value.longitude);
+    formData.append("address", location.value.address || ""); // Ensure non-null values
+    formData.append("city", location.value.city || "");
+    formData.append("district", location.value.district || ""); // Ensure district is appended
+    formData.append("zip_code", location.value.zipCode || ""); // Corrected field name
+    formData.append("country", location.value.country || "");
+    formData.append("latitude", location.value.latitude || "");
+    formData.append("longitude", location.value.longitude || "");
     formData.append("bedrooms", details.value.bedrooms);
     formData.append("bathrooms", details.value.bathrooms);
     formData.append("size", details.value.size);
@@ -205,16 +208,14 @@ const submitForm = () => {
 
     <div v-if="currentStep === 2" class="step">
       <h2>Step 2: Location</h2>
-      <div class="form-grid">
-        <div class="form-group"><label>Adrese</label><input v-model="location.address" type="text" /></div>
-        <div class="form-group"><label>Pilsēta</label><input v-model="location.city" type="text" /></div>
-        <div class="form-group"><label>Rajons</label><input v-model="location.district" type="text" /></div>
-        <div class="form-group"><label>Zip kods</label><input v-model="location.zipCode" type="text" /></div>
-        <div class="form-group"><label>Valts</label><input v-model="location.country" type="text" disabled /></div>
-        <div class="form-group"><label>Latitude</label><input v-model="location.latitude" type="text" /></div>
-        <div class="form-group"><label>Longitude</label><input v-model="location.longitude" type="text" /></div>
-      </div>
-
+      <LocationStep
+        v-model:street="location.address"
+        v-model:city="location.city"
+        v-model:state="location.district"
+        v-model:country="location.country"
+        v-model:lat="location.latitude"
+        v-model:lon="location.longitude"
+      />
       <div class="navigation-buttons">
         <button @click="prevStep">Back</button>
         <button @click="nextStep">Next</button>
