@@ -7,6 +7,20 @@ body{
 }
 
 .navbar {
+  background: transparent;
+  transition: background-color 0.3s ease-in-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.navbar.scrolled {
+  background: rgb(1, 1, 136);
+}
+
+.navbar {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
   backdrop-filter: blur(10px); /* Subtle blur effect */
   -webkit-backdrop-filter: blur(10px);
@@ -46,14 +60,35 @@ body{
 }
 
 .nav-links a {
-  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  padding: 10px 15px;
   color: white;
+  text-decoration: none;
+  font-size: 16px;
   font-weight: 500;
-  transition: 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 0; /* Remove border radius to make buttons square */
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: white;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
 }
 
 .nav-links a:hover {
-  color: #0f5383;
+  
+  color: white; /* Ensure text remains visible */
 }
 
 .auth-actions {
@@ -63,22 +98,65 @@ body{
 }
 
 .user-name {
-  color: #ffcc00;
-  font-weight: bold;
+  position: relative;
+  display: inline-block;
+  color: white;
   text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.user-name::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: white; /* White underline */
+  transition: width 0.3s ease;
+}
+
+.user-name:hover::after {
+  width: 100%;
+}
+
+.user-name:hover {
+  color: white; /* Ensure text remains visible */
 }
 
 .logout-btn {
-  background-color: red;
+  position: relative;
+  display: inline-block;
+  padding: 10px 15px;
   color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: transparent;
   border: none;
-  padding: 5px 10px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: color 0.3s ease;
+}
+
+.logout-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: red; /* Red underline */
+  transition: width 0.3s ease;
+}
+
+.logout-btn:hover::after {
+  width: 100%;
 }
 
 .logout-btn:hover {
-  background-color: darkred;
+  color: white; /* Ensure text remains visible */
 }
 
 
@@ -86,29 +164,6 @@ body{
 
 
 /* CSS */
-.button-33 {
-  background-color: #1f192c;
-  border-radius: 100px;
-  box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
-  color: rgb(145, 197, 205);
-  cursor: pointer;
-  display: inline-block;
-  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
-  padding: 7px 20px;
-  text-align: center;
-  text-decoration: none;
-  transition: all 250ms;
-  border: 0;
-  font-size: 16px;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-}
-
-.button-33:hover {
-  box-shadow: rgba(20, 72, 40, 0.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
-  transform: scale(1.05) rotate(-1deg);
-}
 
 
 

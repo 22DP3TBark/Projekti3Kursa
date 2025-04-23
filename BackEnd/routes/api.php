@@ -40,6 +40,9 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->get('/user/properties', [PropertyController::class, 'userProperties']);
+Route::middleware('auth:sanctum')->put('/user/properties/{id}', [PropertyController::class, 'userPropertieEdit']);
+Route::middleware('auth:sanctum')->delete('/user/properties/{id}', [PropertyController::class, 'userPropertieDelete']);
+
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

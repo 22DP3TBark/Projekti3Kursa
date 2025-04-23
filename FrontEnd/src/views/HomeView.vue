@@ -65,12 +65,14 @@ onMounted(fetchProperties);
               v-for="(property, index) in properties.slice(0, 3)" 
               :key="index"
             >
-              <img :src="property.image" alt="Property Image" />
+              <img :src="property.main_image" alt="Property Image" />
               <div class="property-info">
                 <h3>{{ property.title }}</h3>
                 <p class="price">{{ property.price }}</p>
                 <p class="location">{{ property.location }}</p>
-                <button class="view-details">View Details</button>
+                <router-link :to="`/properties/${property.id}`">
+                  <button class="view-details">View Details</button>
+                </router-link>
               </div>
             </div>
           </div>

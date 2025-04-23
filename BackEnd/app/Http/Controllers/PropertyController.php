@@ -149,4 +149,71 @@ class PropertyController extends Controller
 
         return response()->json($properties);
     }
+
+    public function userPropertieEdit(Request $request, $id)
+    {
+        $user = auth()->user();
+        $property = Property::where('user_id', $user->id)->where('id', $id)->first(); // Fetch the property for the authenticated user
+
+        if (!$property) {
+            return response()->json(['message' => 'Property not found or you do not have permission to edit this property'], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'nullable|numeric|min:0',
+            'currency' => 'nullable|string|max:10',
+            'address' => 'nullable|string',
+            'city' => 'nullable|string',
+            'district' => 'nullable|string',
+            'country' => 'nullable|string',
+            'zip_code' => 'nullable|string',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
+            'purpose' => 'nullable|in:Pārdot,īrēt',
+            'property_type' => 'nullable|in:dzivoklis,maja,birojs,zeme,studio,villa',
+            'bedrooms' => 'nullable|integer|min:0',
+            'bathrooms' => 'nullable|integer|min:0',
+            'size' => 'nullable|integer|min:0',
+            'floor' => 'nullable|integer|min:0',
+            'building_type' => 'nullable|string',
+            'year_built' => 'nullable|integer',
+            'parking_spaces' => 'nullable|integer|min:0',
+            'balcony' => 'nullable|boolean',
+            'garage' => 'nullable|boolean',
+            'swimming_pool' => 'nullable|boolean',
+            'garden' => 'nullable|boolean',
+            'furnished' => 'nullable|boolean',
+            'status' => 'nullable|in:Available,Sold,Rented',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Update the property with the validated data
+        $property->update($request->only([
+            'title', 'description', 'price', 'currency', 'address', 'city', 'district', 'country',
+            'zip_code', 'latitude', 'longitude', 'purpose', 'property_type', 'bedrooms', 'bathrooms',
+            'size', 'floor', 'building_type', 'year_built', 'parking_spaces', 'balcony', 'garage',
+            'swimming_pool', 'garden', 'furnished', 'status'
+        ]));
+
+        return response()->json(['message' => 'Property updated successfully!', 'property' => $property], 200);
+    }
+
+    public function userPropertieDelete($id)
+    {
+        $user = auth()->user();
+        $property = Property::where('user_id', $user->id)->where('id', $id)->first(); // Fetch the property for the authenticated user
+
+        if (!$property) {
+            return response()->json(['message' => 'Property not found or you do not have permission to delete this property'], 404);
+        }
+
+        $property->delete();
+
+        return response()->json(['message' => 'Property deleted successfully!'], 200);
+    }
 }
