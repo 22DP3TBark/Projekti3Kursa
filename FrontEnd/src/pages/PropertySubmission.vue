@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import axiosClient from "../../axiosClient";
 import LocationStep from '../components/LocationStep.vue';
 
@@ -63,6 +64,8 @@ const handleGalleryUpload = (e) => {
   features.value.gallery = Array.from(e.target.files);
 };
 
+const router = useRouter();
+
 const UserPropSubmission = async () => {
   console.log("UserPropSubmission function called"); // Debug log
   console.log("Location data before submission:", location.value); // Log location data
@@ -120,6 +123,13 @@ const UserPropSubmission = async () => {
 
     console.log("Property submitted successfully:", response.data);
     alert("Property submitted successfully!");
+    // Redirect to payment page, passing property id as query param
+    const propertyId = response.data?.property?.id || response.data?.id;
+    if (propertyId) {
+      router.push({ name: "Payment", query: { property_id: propertyId } });
+    } else {
+      router.push({ name: "Payment" });
+    }
   } catch (error) {
     console.error("Error submitting property:", error.message);
     if (error.response) {
@@ -287,6 +297,8 @@ const submitForm = () => {
 body, html {
   height: 100%;
   margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb;
 }
 
 .submission-container {
@@ -296,10 +308,9 @@ body, html {
   background-color: #ffffff;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-  font-family: 'Inter', sans-serif;
-  min-height: 90vh;
   display: flex;
   flex-direction: column;
+  min-height: 90vh;
 }
 
 .progress-indicator {
@@ -319,13 +330,17 @@ body, html {
   align-items: center;
   font-weight: 600;
   color: #6b7280;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
 }
 
 .progress-step.active {
   background-color: #3b82f6;
-  color: #fff;
+  color: #ffffff;
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+.step {
+  flex-grow: 1;
 }
 
 .step h2 {
@@ -339,83 +354,84 @@ body, html {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
-  flex: 1;
 }
 
 .form-group label {
   margin-bottom: 8px;
-  color: #374151;
   font-weight: 500;
+  color: #374151;
 }
 
-input,
-select,
-textarea {
-  padding: 14px 16px;
-  font-size: 1.05rem;
+input[type="text"],
+input[type="number"],
+input[type="file"],
+textarea,
+select {
+  padding: 12px 16px;
   border: 1px solid #d1d5db;
-  border-radius: 10px;
-  background-color: #f9fafb;
-  transition: border-color 0.3s ease;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #3b82f6;
+  border-radius: 12px;
+  font-size: 1rem;
   outline: none;
-  background-color: #ffffff;
+  transition: border-color 0.3s;
 }
 
-.checkbox-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 20px;
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
 }
 
 .user-type-options {
   display: flex;
-  gap: 12px;
-  margin-top: 8px;
+  gap: 16px;
 }
 
 .option-button {
-  padding: 10px 18px;
-  background-color: #f3f4f6;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  cursor: pointer;
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #d1d5db;
+  background-color: #ffffff;
+  border-radius: 12px;
   font-weight: 500;
-  color: #374151;
-  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .option-button:hover {
-  background-color: #e5e7eb;
+  background-color: #f3f4f6;
 }
 
 .option-button.selected {
-  background-color: #3b82f6;
-  color: #ffffff;
   border-color: #3b82f6;
+  background-color: #dbeafe;
+  color: #1d4ed8;
 }
 
 .navigation-buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
+  gap: 16px;
 }
 
 .navigation-buttons button {
-  padding: 14px 26px;
+  flex: 1;
+  padding: 14px;
   background-color: #3b82f6;
-  color: #fff;
+  color: #ffffff;
   border: none;
-  border-radius: 10px;
-  cursor: pointer;
+  border-radius: 12px;
   font-weight: 600;
-  transition: background-color 0.2s ease;
   font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .navigation-buttons button:hover {
@@ -428,8 +444,32 @@ textarea:focus {
 }
 
 .form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.checkbox-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 12px;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #3b82f6;
+}
+
+input[type="file"] {
+  background-color: #f9fafb;
 }
 </style>

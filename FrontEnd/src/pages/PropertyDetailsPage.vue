@@ -39,6 +39,10 @@ onMounted(fetchProperty);
       <!-- Left Side - Image -->
       <div class="image-gallery">
         <img :src="property.main_image || '/assets/placeholder.jpg'" alt="Main Property" />
+        <!-- Thumbnails Section -->
+        <div class="thumbnails">
+          <img v-for="(image, index) in property.gallery.slice(0, 2)" :key="index" :src="image" alt="Property Thumbnail" />
+        </div>
       </div>
 
       <!-- Right Side - Info -->

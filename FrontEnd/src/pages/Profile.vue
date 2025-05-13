@@ -186,8 +186,11 @@ onMounted(() => {
           <label class="LABEL">Phone:</label>
           <input class="INPUT" v-model="user.phone" type="text" />
         </div>
-        <button class="SC-btn" @click="updateProfile">Save</button>
-        <button class="SC-btn" @click="cancelEditing">Cancel</button>
+        <div class="options">
+          <button class="SC-btn" @click="updateProfile">Save</button>
+          <button class="SC-btn" @click="cancelEditing">Cancel</button>
+        </div>
+        
       </Modal>
 
       <!-- Security Tab -->
@@ -214,17 +217,17 @@ onMounted(() => {
         <h2>My Property Listings</h2>
         <div v-if="properties.length" class="properties-grid">
           <div v-for="property in properties" :key="property.id" class="property-card">
-          <img :src="property.main_image" alt="Property Image" class="property-image" v-if="property.main_image" />
-          <div class="property-info">
-            <h3>{{ property.title }}</h3>
-            <p class="description">{{ property.description }}</p>
-            <p class="price">Price: {{ property.price }} {{ property.currency }}</p>
-            <p class="location">{{ property.city }}, {{ property.country }}</p>
-          </div>
-            <div class="property-actions">
-              <button class="edit-btn" @click="openEditPropertyModal(property)">Edit</button>
-              <button class="delete-btn" @click="deleteProperty(property.id)">Delete</button>
+            <img :src="property.main_image" alt="Property Image" class="property-image" v-if="property.main_image" />
+            <div class="property-info">
+              <h3>{{ property.title }}</h3>
+              
+              <p class="price">Price: {{ property.price }} {{ property.currency }}</p>
+              <p class="location">{{ property.city }}, {{ property.country }}</p>
             </div>
+              <div class="property-actions">
+                <button class="edit-btn" @click="openEditPropertyModal(property)">Edit</button>
+                <button class="delete-btn" @click="deleteProperty(property.id)">Delete</button>
+              </div>
       </div>
         </div>
         <p v-else>You have no property listings yet.</p>
@@ -249,8 +252,10 @@ onMounted(() => {
     <label class="LABEL">Country:</label>
     <input class="INPUT" v-model="selectedProperty.country" type="text" />
   </div>
+  <div class="options">
   <button class="SC-btn" @click="saveEditedProperty">Save</button>
   <button class="SC-btn" @click="closeEditPropertyModal">Cancel</button>
+</div>
 </Modal>
 </template>
 
@@ -271,6 +276,17 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
+}
+
+.property-image{
+  width: 90%;
+  height: auto;
+  border-radius: 10px;
+ 
+  height: 140px; /* Set a fixed height for uniformity */
+  
+ 
 }
 
 .property-card h3 {

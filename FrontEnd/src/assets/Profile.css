@@ -1,188 +1,180 @@
+/* Layout */
 .profile-layout {
   display: flex;
   max-width: 1200px;
   margin: 30px auto;
   gap: 30px;
-  align-items: flex-start; /* Align items to the top */
+  align-items: flex-start;
+  min-height: 100vh;
 }
 
+/* Full page left aside */
 .profile-aside {
-  flex: 0 0 200px;
-  background-color: #f9f9f9;
+  flex: 0 0 250px;
+  background-color: #001f3f; /* Dark navy */
   padding: 20px;
-  border-radius: 10px;
-  height: fit-content;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  border-radius: 0 10px 10px 0;
+  height: 100vh;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
   display: flex;
-  flex-direction: column; /* Arrange buttons in a column */
-  align-items: flex-start; /* Align buttons to the left */
-  gap: 100px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 50px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
 }
 
-.tabs{
-  display: flex;
-  flex-direction: column; /* Stack buttons vertically */
-  
-  margin-bottom: 20px;
-}
-
+/* Main content area */
 .profile-main {
-  flex: 1;  
-  background-color: #fff;
+  flex: 1;
+  margin-left: 270px;
+  background-color: #f4f6f8; /* Light gray */
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
- justify-content: center; /* Center content vertically */
-  align-items: center; /* Center content horizontally */
-  
 }
 
-
+/* Profile container */
 .profile-container {
-    width: 50%;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #fff;
-  }
-  
-  .tabs {
-    display: flex;
-    flex-direction: column; /* Stack buttons vertically */
-    gap: 10rem; /* Add spacing between buttons */
-    margin-bottom: 20px;
-  }
-  
-  .tab-button {
-    width: 100%; /* Make buttons take full width of the container */
-    padding: 10px 15px;
-    border: none;
-    background: #f0f0f0;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-    text-align: left; /* Align text to the left */
-    transition: background-color 0.3s;
-  }
-  
-  .tab-button.active,
-  .tab-button:hover {
-    background-color: #0b236b;
-    color: white;
-  }
-  
-  .tab-content {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .profile-section {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .profile-section label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
-  }
-  .edit-btn {
-    margin-top: 10px;
-    padding: 10px;
-    border: none;
-    background-color: #0b236b;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  .Else-CL label{
-    color: black;
-  }
-  .input-field {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-  }
-  
-  .save-button {
-    margin-top: 10px;
-    padding: 10px;
-    border: none;
-    background-color: #0b236b;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-  }
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+}
 
-  .SC-btn{
-    margin-top: 10px;
-    padding: 10px;
-    border: none;
-    background-color: #0b236b;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  h2{
-    margin-bottom: 15px;
-  }
+/* Tabs (sidebar buttons) */
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.tab-button {
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  background: #003366; /* Darker blue for button */
+  color: #f4f4f4;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  text-align: left;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.tab-button.active,
+.tab-button:hover {
+  background-color: #0074D9; /* Bright blue */
+  color: white;
+  transform: translateX(5px);
+}
+
+/* Profile sections inside main */
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-section label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Edit and Save Buttons */
+.edit-btn,
+.save-button,
+.SC-btn {
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  background-color: #0074D9;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.edit-btn:hover,
+.save-button:hover,
+.SC-btn:hover {
+  background-color: #005fa3; /* Darker blue on hover */
+  transform: scale(1.05);
+}
+
+/* Inputs */
+.input-field,
+.INPUT {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.INPUT:focus,
+.input-field:focus {
+  border-color: #0074D9;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 116, 217, 0.5);
+}
+
+/* Labels */
+.LABEL,
+.Else-CL label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* Headings */
+h2 {
+  margin-bottom: 15px;
+}
 
 h3 {
-  
-    font-size: 24px;
-    font-weight: bold;
-    color: #0b236b;
-    text-align: center;
-    margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #0074D9;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.LABEL {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: #333;
+h4 {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.INPUT {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    box-sizing: border-box;
-}
-
-.INPUT:focus {
-    border-color: #0b236b;
-    outline: none;
-    box-shadow: 0 0 5px rgba(11, 35, 107, 0.5);
-}
-.Prop-container {
- 
-}
-
+/* User Properties List */
 .UsersProperties {
   display: grid;
-  grid-template-: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid layout */
-  flex-direction: row; /* Arrange items in a row */
-  align-items: center; /* Vertically center items */
-  gap: 20px; /* Add spacing between items */
-  margin-bottom: 20px;
-  background-color: #0b236b;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  background-color: #003366;
   border-radius: 10px;
-  padding: 10px;
-  margin-top: 10px;
+  padding: 20px;
+  margin-top: 20px;
   color: white;
 }
 
+/* "View More" Button */
 .view-more {
   display: flex;
   justify-content: center;
@@ -193,7 +185,7 @@ h3 {
   padding: 10px 20px;
   border: none;
   background-color: #fff;
-  color: #0b236b;
+  color: #0074D9;
   cursor: pointer;
   border-radius: 5px;
   font-size: 16px;
@@ -202,21 +194,18 @@ h3 {
 }
 
 .view-more button:hover {
-  background-color: #0b236b;
+  background-color: #0074D9;
   color: #fff;
 }
 
+/* List items */
 li {
   margin-bottom: 10px;
   font-size: 16px;
- 
   list-style-type: none;
 }
 
-h4 {
-  margin-top: 15px;
-  font-size: 20px;
-  font-weight: bold;
-  list-style-type: none;
+/* Prop container */
+.Prop-container {
+  width: 100%;
 }
-

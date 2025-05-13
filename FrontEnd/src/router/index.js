@@ -16,6 +16,7 @@ import UserTable from '@/views/UsersViewAdmin.vue'
 import ForgotPassword from '@/views/ForgotPassword.vue'
 import PropertyPage from '@/pages/PropertyDetailsPage.vue'
 import PropertySubmission from "../pages/PropertySubmission.vue";
+import Payment from "../pages/PaymentPage.vue";
 
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register,
+  },
+  {
+    path: '/payment',
+    name: 'Payment',
+    component: Payment,
   },
   {
     path: '/home',
