@@ -6,6 +6,7 @@ use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class PropertyController extends Controller
 {
@@ -67,10 +68,12 @@ class PropertyController extends Controller
                 $mainImagePath = $request->file('main_image')->store('properties', 'public');
             }
 
-            // Handle gallery images
+            // Handle gallery images (support multiple files via gallery[])
             $galleryPaths = [];
             if ($request->hasFile('gallery')) {
-                foreach ($request->file('gallery') as $image) {
+                // If gallery is a single file, wrap in array
+                $galleryFiles = is_array($request->file('gallery')) ? $request->file('gallery') : [$request->file('gallery')];
+                foreach ($galleryFiles as $image) {
                     $galleryPaths[] = $image->store('properties/gallery', 'public');
                 }
             }
@@ -118,19 +121,68 @@ class PropertyController extends Controller
         
     }
 
-    public function search(Request $request)
-    {
-        $query = $request->input('q');
-        $properties = Property::where('title', 'like', "%{$query}%")
-            ->orWhere('city', 'like', "%{$query}%")
-            ->orWhere('description', 'like', "%{$query}%")
-            ->orWhere('property_type', 'like', "%{$query}%")
-            ->orWhere('price', 'like', "%{$query}%")
-            ->orWhere('bedrooms', 'like', "%{$query}%")
-            ->get();
+    // public function search(Request $request)
+    // {
+    //     $query = $request->input('q');
+    //     $properties = Property::where('title', 'like', "%{$query}%")
+    //         ->orWhere('city', 'like', "%{$query}%")
+    //         ->orWhere('description', 'like', "%{$query}%")
+    //         ->orWhere('property_type', 'like', "%{$query}%")
+    //         ->orWhere('price', 'like', "%{$query}%")
+    //         ->orWhere('bedrooms', 'like', "%{$query}%")
+    //         ->get();
 
-        return response()->json($properties);
+    //     return response()->json($properties);
+    // }
+    public function search(Request $request)
+{
+    $query = Property::query();
+
+    // Keyword search
+    if ($request->filled('q')) {
+        $search = $request->input('q');
+        $query->where(function ($q) use ($search) {
+            $q->where('title', 'like', "%{$search}%")
+              ->orWhere('city', 'like', "%{$search}%")
+              ->orWhere('description', 'like', "%{$search}%")
+              ->orWhere('property_type', 'like', "%{$search}%")
+              ->orWhere('price', 'like', "%{$search}%")
+              ->orWhere('bedrooms', 'like', "%{$search}%");
+        });
     }
+
+    // Price range filter
+    if ($request->filled('min_price')) {
+        $query->where('price', '>=', $request->input('min_price'));
+    }
+
+    if ($request->filled('max_price')) {
+        $query->where('price', '<=', $request->input('max_price'));
+    }
+
+    // Property types filter
+    if ($request->filled('property_type')) {
+        $types = explode(',', $request->input('property_type'));
+        $query->whereIn('property_type', $types);
+    }
+
+    // Bathrooms filter
+    if ($request->filled('bathrooms')) {
+        $query->where('bathrooms', '>=', $request->input('bathrooms'));
+    }
+
+    // Amenities filter (assuming amenities are stored as JSON or comma-separated string in DB)
+    if ($request->filled('amenities')) {
+        $amenities = explode(',', $request->input('amenities'));
+        foreach ($amenities as $amenity) {
+            $query->where('amenities', 'like', "%{$amenity}%");
+        }
+    }
+
+    $properties = $query->get();
+
+    return response()->json($properties);
+}
 
     public function show($id)
     {
@@ -215,5 +267,22 @@ class PropertyController extends Controller
         $property->delete();
 
         return response()->json(['message' => 'Property deleted successfully!'], 200);
+    }
+
+    /**
+     * Get the count of properties grouped by user with user info.
+     */
+    public function propertiesCountByUser()
+    {
+        $results = DB::table('properties')
+            ->join('users', 'properties.user_id', '=', 'users.id')
+            ->select('users.id as user_id', 'users.name', DB::raw('COUNT(properties.id) as properties_count'))
+            ->groupBy('users.id', 'users.name')
+            ->orderByDesc('properties_count') // Order by property count descending
+            ->get();
+
+        return response()->json([
+            'data' => $results
+        ]);
     }
 }

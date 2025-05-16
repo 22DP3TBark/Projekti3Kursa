@@ -61,7 +61,16 @@ const handleMainImageUpload = (e) => {
 };
 
 const handleGalleryUpload = (e) => {
-  features.value.gallery = Array.from(e.target.files);
+  const newFiles = Array.from(e.target.files);
+  // Append new files, avoiding duplicates by name (optional)
+  const existingNames = features.value.gallery.map(f => f.name);
+  newFiles.forEach(file => {
+    if (!existingNames.includes(file.name)) {
+      features.value.gallery.push(file);
+    }
+  });
+  // Reset the input so the same file can be selected again if needed
+  e.target.value = '';
 };
 
 const router = useRouter();
@@ -101,10 +110,10 @@ const UserPropSubmission = async () => {
       formData.append("main_image", features.value.mainImage); // Corrected field name
     }
 
-    // Append gallery images
+    // Append gallery images as an array (gallery[])
     if (features.value.gallery.length > 0) {
-      features.value.gallery.forEach((file, index) => {
-        formData.append(`gallery[${index}]`, file);
+      features.value.gallery.forEach((file) => {
+        formData.append("gallery[]", file);
       });
     }
 
@@ -148,6 +157,11 @@ const submitForm = () => {
     features: features.value,
     pricing: pricing.value,
   });
+};
+
+// Helper for object URL
+const getObjectURL = (file) => {
+  return window.URL.createObjectURL(file);
 };
 </script>
 
@@ -263,7 +277,19 @@ const submitForm = () => {
         </div>
       </div>
       <div class="form-group"><label>Main Image</label><input type="file" accept="image/*" @change="handleMainImageUpload" /></div>
-      <div class="form-group"><label>Gallery Images</label><input type="file" accept="image/*" multiple @change="handleGalleryUpload" /></div>
+      <div class="form-group">
+        <label>Gallery Images</label>
+        <input type="file" accept="image/*" multiple @change="handleGalleryUpload" />
+        <!-- Optionally, preview selected images -->
+        <div v-if="features.gallery.length" style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
+          <img
+            v-for="(img, idx) in features.gallery"
+            :key="idx"
+            :src="getObjectURL(img)"
+            style="width:80px;height:80px;object-fit:cover;border-radius:8px;"
+          />
+        </div>
+      </div>
 
       <div class="navigation-buttons">
         <button @click="prevStep">Back</button>

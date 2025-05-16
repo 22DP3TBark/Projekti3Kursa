@@ -4,6 +4,8 @@ import adminService from '@/services/adminService'; // Adjust the path to your a
 import { useAuth } from "../stores/useAuth";
 import PropertyTableAdmin from '@/components/PropertyTableAdmin.vue';
 import Modal from '@/components/Model.vue'; // Import the Modal component
+import axios from 'axios'; // <-- Add this if not already imported
+import axiosClient from '../../axiosClient';
 
 const {user} = useAuth();
 
@@ -15,7 +17,11 @@ const loading = ref(false);
 const error = ref(null);
 const showUsersTable = ref(false); // Define showUsersTable
 const showPropertiesTable = ref(false); // Define showPropertiesTable
+const showPropertiesCountTable = ref(false); // New toggle for property count table
 const propertySearchQuery = ref(""); // Add a reactive property for the search query
+const propertiesCountByUser = ref([]);
+const loadingPropertiesCount = ref(false);
+const errorPropertiesCount = ref(null);
 
 // Fetch all users when the component mounts
 const fetchUsers = async () => {
@@ -83,11 +89,23 @@ const deleteUser = async (id) => {
 const toggleUsersTable = () => {
   showUsersTable.value = !showUsersTable.value;
   showPropertiesTable.value = false;
+  showPropertiesCountTable.value = false;
 };
 
 const togglePropertiesTable = () => {
   showPropertiesTable.value = !showPropertiesTable.value;
   showUsersTable.value = false; // Hide Users Table when Properties Table is shown
+  showPropertiesCountTable.value = false;
+};
+
+// Toggle the visibility of the property count table
+const togglePropertiesCountTable = () => {
+  showPropertiesCountTable.value = !showPropertiesCountTable.value;
+  showUsersTable.value = false;
+  showPropertiesTable.value = false;
+  if (showPropertiesCountTable.value && propertiesCountByUser.value.length === 0) {
+    fetchPropertiesCountByUser();
+  }
 };
 
 // Fetch users on component mount
@@ -107,6 +125,21 @@ const handlesearch = (query) => {
       String(value).toLowerCase().includes(lowerCaseQuery)
     )
   );
+};
+
+// Fetch property count by user
+const fetchPropertiesCountByUser = async () => {
+  loadingPropertiesCount.value = true;
+  errorPropertiesCount.value = null;
+  try {
+    // Use axiosClient and the correct endpoint
+    const res = await axiosClient.get('/count-by-user');
+    propertiesCountByUser.value = res.data.data;
+  } catch (err) {
+    errorPropertiesCount.value = 'Failed to load property counts.';
+  } finally {
+    loadingPropertiesCount.value = false;
+  }
 };
 </script>
 
@@ -129,6 +162,10 @@ const handlesearch = (query) => {
                 <a href="#" class="nav-item" @click.prevent="togglePropertiesTable">
                     <span>📝</span>
                     <span>Properties</span>
+                </a>
+                <a href="#" class="nav-item" @click.prevent="togglePropertiesCountTable">
+                    <span>🔢</span>
+                    <span>Properties Count</span>
                 </a>
                 <a href="#" class="nav-item">
                     <span>⚙️</span>
@@ -233,6 +270,29 @@ const handlesearch = (query) => {
                     <button class="search-btn" disabled>Search</button>
                   </div>
                     <PropertyTableAdmin :searchQuery="propertySearchQuery" />  
+                </div>
+
+                <!-- Properties Count Table -->
+                <div v-if="showPropertiesCountTable">
+                  <h2>Properties Count By User</h2>
+                  <div v-if="loadingPropertiesCount">Loading...</div>
+                  <div v-else-if="errorPropertiesCount">{{ errorPropertiesCount }}</div>
+                  <table v-else class="user-table">
+                    <thead>
+                      <tr>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Property Count</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="row in propertiesCountByUser" :key="row.user_id">
+                        <td>{{ row.user_id }}</td>
+                        <td>{{ row.name }}</td>
+                        <td>{{ row.properties_count }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
                 <div v-else>
                     <p>Welcome to the Admin Dashboard. Select an option from the sidebar.</p>

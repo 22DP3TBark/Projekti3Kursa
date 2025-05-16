@@ -38,12 +38,12 @@ const logout = async () => {
 
   localStorage.removeItem("ACCESS_TOKEN");
   localStorage.removeItem("user");
-  router.push("/login");
+  router.push("/home");
   isAuthenticated.value = false;
   user.value = null;
   isAdmin.value = false;
 
-  router.push("/login");
+  router.push("/home");
 };
 
 const checkAuth = () => {

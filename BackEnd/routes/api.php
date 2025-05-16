@@ -52,6 +52,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
 Route::middleware('auth:sanctum')->post('/property-receipts', [PropertyReceiptController::class, 'store']);
+Route::get('/count-by-user', [PropertyController::class, 'propertiesCountByUser']);
 
 
 

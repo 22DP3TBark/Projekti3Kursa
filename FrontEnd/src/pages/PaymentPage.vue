@@ -1,9 +1,10 @@
 <script setup>
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import axiosClient from '../../axiosClient'
 
 const route = useRoute()
+const router = useRouter()
 const propertyId = ref(Number(route.query.property_id) || 1) // fallback to 1 if not provided
 
 const cardNumber = ref('')
@@ -30,6 +31,15 @@ async function pay() {
     loading.value = false
   }
 }
+
+// Redirect to home page after successful payment
+watch(isPaid, (paid) => {
+  if (paid) {
+    setTimeout(() => {
+      router.push({ name: 'Home' })
+    }, 2000) // 2 seconds delay before redirect
+  }
+})
 </script>
 
 <template>
@@ -40,12 +50,12 @@ async function pay() {
         <h3>Property Summary</h3>
         <!-- Replace with real property info as needed -->
         <div class="summary-row">
-          <span>Property:</span>
-          <span>Modern Apartment</span>
+          <span>Iemesls:</span>
+          <span>Sludinajums</span>
         </div>
         <div class="summary-row">
           <span>Price:</span>
-          <span>€1,200 / month</span>
+          <span>1.00</span>
         </div>
       </div>
       <form class="payment-form" @submit.prevent="pay" v-if="!isPaid">
@@ -103,6 +113,7 @@ async function pay() {
         <svg width="48" height="48" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#4ade80"/><path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <p>Payment Successful!</p>
         <p>Thank you for your submission.</p>
+        <p>Redirecting to home...</p>
       </div>
     </div>
   </div>

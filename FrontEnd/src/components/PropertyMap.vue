@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, nextTick } from 'vue';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import axiosClient from '../../axiosClient';
@@ -20,6 +20,7 @@ const getCords = async () => {
 };
 
 onMounted(async () => {
+  await nextTick(); // Ensure DOM is rendered before initializing map
   const coordinates = await getCords();
 
   const map = L.map(mapContainer.value).setView(coordinates, 13);
@@ -32,13 +33,28 @@ onMounted(async () => {
     .addTo(map)
     .bindPopup('Property Location')
     .openPopup();
+
+  // Fix map resize if parent is flex or hidden initially
+  setTimeout(() => {
+    map.invalidateSize();
+  }, 300);
 });
 </script>
 
 <template>
-  <div ref="mapContainer" style="height: 400px; width: 100%; border-radius: 12px;" />
+  <div ref="mapContainer" class="property-map-container" />
 </template>
 
 <style scoped>
-/* Add any additional styles if needed */
+.property-map-container {
+  width: 100%;
+  min-width: 320px;
+  height: 400px;
+  min-height: 300px;
+  border-radius: 12px;
+  margin: 0 auto;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  background: #e9ecef;
+  display: block;
+}
 </style>
