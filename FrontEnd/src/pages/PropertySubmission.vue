@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 import axiosClient from "../../axiosClient";
 import LocationStep from '../components/LocationStep.vue';
@@ -48,8 +48,70 @@ const pricing = ref({
   status: "",
 });
 
+// Validation state
+const errors = reactive({
+  basicInfo: {},
+  location: {},
+  details: {},
+  features: {},
+  pricing: {},
+});
+
+// Validation functions
+function validateBasicInfo() {
+  errors.basicInfo = {};
+  if (!userType.value.value) errors.basicInfo.userType = "Lūdzu izvēlieties lietotāja tipu.";
+  if (!basicInfo.value.title) errors.basicInfo.title = "Virsraksts ir obligāts.";
+  if (!basicInfo.value.description) errors.basicInfo.description = "Apraksts ir obligāts.";
+  if (!basicInfo.value.purpose) errors.basicInfo.purpose = "Lūdzu izvēlieties mērķi.";
+  if (!basicInfo.value.propertyType) errors.basicInfo.propertyType = "Lūdzu norādiet īpašuma tipu.";
+  return Object.keys(errors.basicInfo).length === 0;
+}
+
+function validateLocation() {
+  errors.location = {};
+  if (!location.value.address) errors.location.address = "Adrese ir obligāta.";
+  if (!location.value.city) errors.location.city = "Pilsēta ir obligāta.";
+  if (!location.value.district) errors.location.district = "Rajons ir obligāts.";
+  if (!location.value.zipCode) errors.location.zipCode = "Pasta indekss ir obligāts.";
+  if (!location.value.country) errors.location.country = "Valsts ir obligāta.";
+  // Optionally validate lat/lon
+  return Object.keys(errors.location).length === 0;
+}
+
+function validateDetails() {
+  errors.details = {};
+  if (!details.value.bedrooms) errors.details.bedrooms = "Guļamistabu skaits ir obligāts.";
+  if (!details.value.bathrooms) errors.details.bathrooms = "Vannas istabu skaits ir obligāts.";
+  if (!details.value.size) errors.details.size = "Izmērs ir obligāts.";
+  if (!details.value.floor) errors.details.floor = "Stāvs ir obligāts.";
+  if (!details.value.buildingType) errors.details.buildingType = "Ēkas tips ir obligāts.";
+  if (!details.value.yearBuilt) errors.details.yearBuilt = "Uzcelšanas gads ir obligāts.";
+  if (!details.value.parkingSpaces) errors.details.parkingSpaces = "Stāvvietu skaits ir obligāts.";
+  return Object.keys(errors.details).length === 0;
+}
+
+function validateFeatures() {
+  errors.features = {};
+  if (!features.value.mainImage) errors.features.mainImage = "Galvenais attēls ir obligāts.";
+  // Optionally validate gallery or amenities
+  return Object.keys(errors.features).length === 0;
+}
+
+function validatePricing() {
+  errors.pricing = {};
+  if (!pricing.value.price) errors.pricing.price = "Cena ir obligāta.";
+  if (!pricing.value.status) errors.pricing.status = "Statuss ir obligāts.";
+  return Object.keys(errors.pricing).length === 0;
+}
+
 const nextStep = () => {
-  if (currentStep.value < totalSteps) currentStep.value++;
+  let valid = true;
+  if (currentStep.value === 1) valid = validateBasicInfo();
+  if (currentStep.value === 2) valid = validateLocation();
+  if (currentStep.value === 3) valid = validateDetails();
+  if (currentStep.value === 4) valid = validateFeatures();
+  if (valid && currentStep.value < totalSteps) currentStep.value++;
 };
 
 const prevStep = () => {
@@ -62,27 +124,34 @@ const handleMainImageUpload = (e) => {
 
 const handleGalleryUpload = (e) => {
   const newFiles = Array.from(e.target.files);
-  // Append new files, avoiding duplicates by name (optional)
   const existingNames = features.value.gallery.map(f => f.name);
   newFiles.forEach(file => {
     if (!existingNames.includes(file.name)) {
       features.value.gallery.push(file);
     }
   });
-  // Reset the input so the same file can be selected again if needed
   e.target.value = '';
 };
 
 const router = useRouter();
 
 const UserPropSubmission = async () => {
-  console.log("UserPropSubmission function called"); // Debug log
-  console.log("Location data before submission:", location.value); // Log location data
-
+  // Validate all before submit
+  const valid =
+    validateBasicInfo() &
+    validateLocation() &
+    validateDetails() &
+    validateFeatures() &
+    validatePricing();
+  if (!valid) {
+    currentStep.value = [validateBasicInfo, validateLocation, validateDetails, validateFeatures, validatePricing]
+      .findIndex(fn => !fn()) + 1;
+    return;
+  }
   try {
     // Prepare FormData for file uploads
     const formData = new FormData();
-    formData.append("userType", userType.value); // Ensure userType is appended correctly
+    formData.append("userType", userType.value.value); // Fix: use .value
     formData.append("title", basicInfo.value.title);
     formData.append("description", basicInfo.value.description);
     formData.append("purpose", basicInfo.value.purpose);
@@ -200,15 +269,18 @@ const getObjectURL = (file) => {
             Privat Persona
           </button>
         </div>
+        <span v-if="errors.basicInfo.userType" class="error-msg">{{ errors.basicInfo.userType }}</span>
       </div>
 
       <div class="form-group">
         <label>Virsraksts</label>
         <input v-model="basicInfo.title" type="text" placeholder="Listing Title" />
+        <span v-if="errors.basicInfo.title" class="error-msg">{{ errors.basicInfo.title }}</span>
       </div>
       <div class="form-group">
         <label>Apraksts</label>
         <textarea v-model="basicInfo.description" placeholder="Property Description"></textarea>
+        <span v-if="errors.basicInfo.description" class="error-msg">{{ errors.basicInfo.description }}</span>
       </div>
       <div class="form-group">
         <label>Mērķis</label>
@@ -217,14 +289,16 @@ const getObjectURL = (file) => {
           <option>Pārdot</option>
           <option>īrēt</option>
         </select>
+        <span v-if="errors.basicInfo.purpose" class="error-msg">{{ errors.basicInfo.purpose }}</span>
       </div>
       <div class="form-group">
         <label>īpašuma tips</label>
         <input v-model="basicInfo.propertyType" type="text" placeholder="e.g. Dzīvoklis, Māja" />
+        <span v-if="errors.basicInfo.propertyType" class="error-msg">{{ errors.basicInfo.propertyType }}</span>
       </div>
 
       <div class="navigation-buttons">
-        <button @click="nextStep" :disabled="!userType.value || !basicInfo.title || !basicInfo.description || !basicInfo.purpose || !basicInfo.propertyType">
+        <button @click="nextStep" :disabled="false">
           Next
         </button>
       </div>
@@ -240,6 +314,13 @@ const getObjectURL = (file) => {
         v-model:lat="location.latitude"
         v-model:lon="location.longitude"
       />
+      <div class="form-group">
+        <span v-if="errors.location.address" class="error-msg">{{ errors.location.address }}</span>
+        <span v-if="errors.location.city" class="error-msg">{{ errors.location.city }}</span>
+        <span v-if="errors.location.district" class="error-msg">{{ errors.location.district }}</span>
+        <span v-if="errors.location.zipCode" class="error-msg">{{ errors.location.zipCode }}</span>
+        <span v-if="errors.location.country" class="error-msg">{{ errors.location.country }}</span>
+      </div>
       <div class="navigation-buttons">
         <button @click="prevStep">Back</button>
         <button @click="nextStep">Next</button>
@@ -249,13 +330,41 @@ const getObjectURL = (file) => {
     <div v-if="currentStep === 3" class="step">
       <h2>Step 3: Property Details</h2>
       <div class="form-grid">
-        <div class="form-group"><label>Guļamistabas</label><input v-model="details.bedrooms" type="number" /></div>
-        <div class="form-group"><label>Vannas Izstaba</label><input v-model="details.bathrooms" type="number" /></div>
-        <div class="form-group"><label>izmērs(m²)</label><input v-model="details.size" type="number" /></div>
-        <div class="form-group"><label>stāvs</label><input v-model="details.floor" type="number" /></div>
-        <div class="form-group"><label>īpašuma tips</label><input v-model="details.buildingType" type="text" /></div>
-        <div class="form-group"><label>Uzcelšanas gads</label><input v-model="details.yearBuilt" type="number" /></div>
-        <div class="form-group"><label>Parkings</label><input v-model="details.parkingSpaces" type="number" /></div>
+        <div class="form-group">
+          <label>Guļamistabas</label>
+          <input v-model="details.bedrooms" type="number" />
+          <span v-if="errors.details.bedrooms" class="error-msg">{{ errors.details.bedrooms }}</span>
+        </div>
+        <div class="form-group">
+          <label>Vannas Izstaba</label>
+          <input v-model="details.bathrooms" type="number" />
+          <span v-if="errors.details.bathrooms" class="error-msg">{{ errors.details.bathrooms }}</span>
+        </div>
+        <div class="form-group">
+          <label>izmērs(m²)</label>
+          <input v-model="details.size" type="number" />
+          <span v-if="errors.details.size" class="error-msg">{{ errors.details.size }}</span>
+        </div>
+        <div class="form-group">
+          <label>stāvs</label>
+          <input v-model="details.floor" type="number" />
+          <span v-if="errors.details.floor" class="error-msg">{{ errors.details.floor }}</span>
+        </div>
+        <div class="form-group">
+          <label>īpašuma tips</label>
+          <input v-model="details.buildingType" type="text" />
+          <span v-if="errors.details.buildingType" class="error-msg">{{ errors.details.buildingType }}</span>
+        </div>
+        <div class="form-group">
+          <label>Uzcelšanas gads</label>
+          <input v-model="details.yearBuilt" type="number" />
+          <span v-if="errors.details.yearBuilt" class="error-msg">{{ errors.details.yearBuilt }}</span>
+        </div>
+        <div class="form-group">
+          <label>Parkings</label>
+          <input v-model="details.parkingSpaces" type="number" />
+          <span v-if="errors.details.parkingSpaces" class="error-msg">{{ errors.details.parkingSpaces }}</span>
+        </div>
       </div>
 
       <div class="navigation-buttons">
@@ -276,11 +385,14 @@ const getObjectURL = (file) => {
           <label><input type="checkbox" value="Furnished" v-model="features.amenities" />Mebeles</label>
         </div>
       </div>
-      <div class="form-group"><label>Main Image</label><input type="file" accept="image/*" @change="handleMainImageUpload" /></div>
+      <div class="form-group">
+        <label>Main Image</label>
+        <input type="file" accept="image/*" @change="handleMainImageUpload" />
+        <span v-if="errors.features.mainImage" class="error-msg">{{ errors.features.mainImage }}</span>
+      </div>
       <div class="form-group">
         <label>Gallery Images</label>
         <input type="file" accept="image/*" multiple @change="handleGalleryUpload" />
-        <!-- Optionally, preview selected images -->
         <div v-if="features.gallery.length" style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
           <img
             v-for="(img, idx) in features.gallery"
@@ -299,8 +411,15 @@ const getObjectURL = (file) => {
 
     <div v-if="currentStep === 5" class="step">
       <h2>Step 5: Price & Status</h2>
-      <div class="form-group"><label>Cena</label><input v-model="pricing.price" type="number" /></div>
-      <div class="form-group"><label>Currency</label><input v-model="pricing.currency" type="text" disabled /></div>
+      <div class="form-group">
+        <label>Cena</label>
+        <input v-model="pricing.price" type="number" />
+        <span v-if="errors.pricing.price" class="error-msg">{{ errors.pricing.price }}</span>
+      </div>
+      <div class="form-group">
+        <label>Currency</label>
+        <input v-model="pricing.currency" type="text" disabled />
+      </div>
       <div class="form-group">
         <label>Status</label>
         <select v-model="pricing.status">
@@ -309,10 +428,11 @@ const getObjectURL = (file) => {
           <option>Sold</option>
           <option>Rented</option>
         </select>
+        <span v-if="errors.pricing.status" class="error-msg">{{ errors.pricing.status }}</span>
       </div>
 
       <div class="navigation-buttons">
-        <button @click="prevStep">Back</button> <!-- Ensure this is correctly bound -->
+        <button @click="prevStep">Back</button>
         <button @click="UserPropSubmission">Submit</button>
       </div>
     </div>
@@ -497,5 +617,13 @@ textarea {
 
 input[type="file"] {
   background-color: #f9fafb;
+}
+
+.error-msg {
+  color: #dc2626;
+  font-size: 0.95em;
+  margin-top: 4px;
+  margin-bottom: 2px;
+  display: block;
 }
 </style>

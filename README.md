@@ -1,38 +1,89 @@
-Nekustamo īpašumu sistēma 
+# Nekustamo Īpašumu Sistēma
 
-Lietoju Vue js 3 un laravel 11
+Šī ir nekustamo īpašumu pārvaldības sistēma, kas izstrādāta ar **Vue.js 3** (FrontEnd) un **Laravel 11** (BackEnd).
 
-Izdarīts:
+---
 
-  Api:
-  Uztaisiti 3 api: login, register un logout, kas ari tikka iztestēti ar postman.
-  
-  Registrācija:
-    ir uztaisīta reģistrācija, kas savienojas ar Backend. Backend uztaisita funkcija kas valide ierakstitos datus, hasho paraoli un uztaisa lietotāju, kas talak tiek aizsūtīts uz mysql datu bāzi 
-    izmantojot Xampp. FrontEnd izmanto axios, lai izmantotu api.
-    
-  Login:
-    Uztaisīts login, kas savienojas ar backend, kur parbauda vai lietotajs eksistē un ari autorizē lietotāju, izmantojot bearer token. 
-    Token uztaisa backend un frontend.Kad lietotajs uzspiež login, websites paraledejas
-    un aisuta vinu uz home page, kur var navbar redzet ielogotā lietotaja username, profile sekciju ar visu lietotāja info un logout pogu.
-    
-  Logout:
-    Uzpiežot pogu, lietotajs tiek logouts arā no sava konta, tiek nonemts token gan no frontend gan no BackEnd. Arī ir logout api uztaisits backend.
-    
-  Users profile:
-    Kad uzspiež uz user pogu navbar, lietotājs var redzet visu savu infomaciju. Esošo lietotaja info saglabā kad viņs ielogojas ar login funkciju FrontEnd.
-    Pievienota funkcionalitāte ka lietotajs var parmainit savu informaciju un paroli.
-    
-  Ir uztaisits listing page, bet pagaidam ir tikai ielikts parasts ierakts, vajag uztaisit dartubazes tabulu ar ipasumu info, un seedot vinu ar laravel faker.
+## Tehnoloģijas
 
-  AdminDashBoard:
-    Uztaisīts admin dashboard kur admin ar admin role tikai var redzet, iekša ir 2 tabulas, lietotāju tabula un Īpašumu tabula, abiem ir search function iespeja uztaisīta
-    
+- **Frontend:** Vue.js 3
+- **Backend:** Laravel 11
+- **Datu bāze:** MySQL (caur XAMPP)
+- **API komunikācija:** Axios
+- **Autentifikācija:** Bearer Token
 
+---
 
+## Funkcionalitāte
 
-TESTCASES 10
-  Bilde kura var redzet tabulu ar 10 test cases
-![image](https://github.com/user-attachments/assets/0dcda2d6-304c-48e0-b775-e8ba0f256108)
+### 1. Autentifikācija un Autorizācija
+
+- **Reģistrācija**
+  - Lietotājs var reģistrēties, aizpildot formu.
+  - Backend validē datus, hash-o paroli un saglabā lietotāju datu bāzē.
+  - Frontend izmanto Axios, lai nosūtītu datus uz API.
+
+- **Pieteikšanās (Login)**
+  - Lietotājs piesakās ar e-pastu un paroli.
+  - Backend pārbauda lietotāja esamību un ģenerē Bearer token.
+  - Pēc veiksmīgas pieteikšanās lietotājs tiek novirzīts uz sākumlapu.
+  - Navbar tiek attēlots lietotāja vārds, profila sadaļa un izrakstīšanās poga.
+
+- **Izrakstīšanās (Logout)**
+  - Lietotājs var izrakstīties, kas noņem token gan frontend, gan backend pusē.
+  - Ir izveidots atsevišķs logout API.
+
+### 2. Lietotāja Profils
+
+- Lietotājs var skatīt un rediģēt savu informāciju.
+- Pieejama iespēja mainīt paroli.
+- Lietotāja dati tiek ielādēti pēc pieteikšanās.
+
+### 3. Īpašumu Saraksts
+
+- Izveidota īpašumu saraksta lapa (listing page).
+- Pašlaik ir tikai statisks ieraksts.
+- Plānots izveidot datu bāzes tabulu īpašumu informācijai un aizpildīt to ar Laravel Faker.
+
+### 4. Administrācijas Panelis
+
+- Pieejams tikai lietotājiem ar "admin" lomu.
+- Divas tabulas: lietotāju tabula un īpašumu tabula.
+- Abām tabulām ir meklēšanas funkcionalitāte.
+
+---
+
+## API Pārskats
+
+- **POST /api/register** — lietotāja reģistrācija
+- **POST /api/login** — lietotāja pieteikšanās
+- **POST /api/logout** — lietotāja izrakstīšanās
+
+---
+
+## Testēšana
+
+- API testēti ar Postman.
+- Izveidoti 10 testgadījumi (skatīt attēlu zemāk).
+
+---
+
+## Testgadījumu Tabula
+
+![Testgadījumu tabula](https://github.com/user-attachments/assets/0dcda2d6-304c-48e0-b775-e8ba0f256108)
+
+---
+
+## Plānotie Uzlabojumi
+
+- Izveidot īpašumu datu bāzes tabulu un aizpildīt ar Faker datiem.
+- Paplašināt īpašumu saraksta funkcionalitāti.
+- Uzlabot lietotāja profila iespējas.
+
+---
+
+## Autors
+
+- Projekta autors: *[Jūsu vārds]*
 
 
