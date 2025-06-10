@@ -84,6 +84,11 @@
 
 ## Autors
 
-- Projekta autors: *[Jūsu vārds]*
+- Projekta autors: Indriķis Teodors Barkāns
+
+## Test cases Manam Projektam
+
+![image](https://github.com/user-attachments/assets/2b4c375a-1f6f-429f-a56b-9f36adbae3c9)
+
 
 
